@@ -1,20 +1,69 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+//General Imports 
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+//Icon imports
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons'
+import EntypoIcon from 'react-native-vector-icons/Entypo'
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
+
+//Page Imports
+import WorkoutScreen from './pages/WorkoutPage';
+import DietScreen from './pages/DietPage';
+import ProgressScreen from './pages/ProgressPage';
+import WaterTrackerScreen from './pages/WaterTrackerPage';
+import WeightTrackerScreen from './pages/WeightTrackerPage'; 
+
+//Other Imports
+import AppHeader from './components/AppHeader'
+
+
+//Navigation Labels
+const workoutLabel = "Workouts";
+const dietLabel = "Diet";
+const progressLabel = "Progress";
+const waterTrackerLabel = "Water"
+const weightTrackerLabel = "Weight"
+
+const Tab = createBottomTabNavigator();
+const ICON_SIZE = 20;
+const DEFAULT_ICON_COLOR = "#303030"
+const FOCUSED_ICON_COLOR = "#FE7422"
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        initialRouteName={progressLabel}
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === workoutLabel) {
+              return <FontAwesomeIcon name="bicycle" size={size} color={color}/>;
+            } else if (route.name === dietLabel) {
+              return <MaterialCommunityIcon name="food-apple" size={size} color={color}/>;
+            } else if (route.name === progressLabel) {
+              return <EntypoIcon name="clipboard" size={size} color={color}/>;
+            } else if (route.name === waterTrackerLabel) {
+              return <MaterialCommunityIcon name="water" size={size} color={color}/>;
+            } else if (route.name === weightTrackerLabel) {
+              return <FontAwesome5Icon name="weight" size={size} color={color}/>;
+            }
+          },
+          tabBarActiveTintColor: FOCUSED_ICON_COLOR,
+          tabBarInactiveTintColor: DEFAULT_ICON_COLOR,
+          header: () => <AppHeader />
+        })}
+      >
+        <Tab.Screen name={workoutLabel} component={WorkoutScreen} />
+        <Tab.Screen name={dietLabel} component={DietScreen} />
+        <Tab.Screen name={progressLabel} component={ProgressScreen} />
+        <Tab.Screen name={waterTrackerLabel} component={WaterTrackerScreen} />
+        <Tab.Screen name={weightTrackerLabel} component={WeightTrackerScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

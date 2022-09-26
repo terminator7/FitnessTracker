@@ -21,7 +21,7 @@ Each Page/Features of the application will be represented by a branch.
 
 ## Repository Layout
 1. components folder: Will hold componets either designed for a specific page or universally for entire app
-    - components should be named in this structure: <code>alllowercasename.js</code>
+    - components should be named in camel case structure: <code>MyComponet.js</code>
 2. pages folder: Will hold all pages to for the app
    - pages should be named in camel case structure: <code>MyPage.js</code>
 3. utils: Will hold basic helper functions that may be useful for whole team
@@ -29,3 +29,13 @@ Each Page/Features of the application will be represented by a branch.
 4. *to be continued as project continues in complexity **(suggestions are appericated!)*** 
 
 *to be continued...(When I think of more stuff to put lol)*
+
+https://www.npmjs.com/package/react-native-vector-icons#icon-component
+
+https://oblador.github.io/react-native-vector-icons/
+
+https://reactnavigation.org/docs/
+
+https://www.waldo.com/blog/react-native-project-structure
+
+https://github.com/vhpoet/react-native-styling-cheat-sheet#view
