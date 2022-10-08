@@ -2,7 +2,6 @@ import React from 'react';
 import {
     Dimensions,
     FlatList,
-    ImageBackground,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -14,59 +13,69 @@ import OnboardingSlidesInfo from '../data/OnboardingSlidesInfo.json';
 
 const OnboardingScreen = ({ navigation }) => {
     return (
-        <ImageBackground source={require('../img/woman-squat-rack.jpg')} imageStyle={{opacity: 0.7}}>
-            <View style={styles.overlay}/>
-            <View style={styles.slidesContainer}>
+        <View style={ styles.container }>
+            <View style={ styles.slidesContainer }>
                 <FlatList
-                    bounces={false}
-                    data={OnboardingSlidesInfo}
+                    bounces={ false }
+                    data={ OnboardingSlidesInfo }
                     horizontal
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={ (item) => item.id }
                     pagingEnabled
-                    renderItem={({ item }) => <OnboardingSlide item={item}/>}
-                    showsHorizontalScrollIndicator={false}
+                    renderItem={ ({ item }) => <OnboardingSlide item={ item }/> }
+                    showsHorizontalScrollIndicator={ false }
                 />
             </View>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('Home')}
-                    style={styles.button}
-                >
-                    <Text style={styles.buttonText}>Get Started</Text>
-                </TouchableOpacity>
+            <View style={ styles.bottomContainer }>
+                <View style={ styles.slidesIndicatorContainer }>
+                    <Text>Hello!</Text>
+                </View>
+                <View style={ styles.buttonContainer }>
+                    <TouchableOpacity
+                        onPress={ () => navigation.navigate('Profile Setup') }
+                        style={ styles.button }
+                    >
+                        <Text style={ styles.buttonText }>Get Started</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </ImageBackground>
+        </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
+    bottomContainer: {
+        flexDirection: 'row',
+        height: Dimensions.get('window').height * 0.2,
+    },
     button: {
-        backgroundColor: '#FFFFFF',
-        borderRadius: 40,
-        paddingBottom: Dimensions.get('window').height * 0.015,
-        paddingLeft: Dimensions.get('window').width * 0.25,
-        paddingRight: Dimensions.get('window').width * 0.25,
-        paddingTop: Dimensions.get('window').height * 0.015,
+        alignItems: 'center',
+        backgroundColor: '#FF784F',
+        borderRadius: '50px',
+        height: Dimensions.get('window').height * 0.06,
+        justifyContent: 'center',
+        paddingTop: Dimensions.get('window').height * 0.005,
+        width: Dimensions.get('window').width * 0.5,
     },
     buttonContainer: {
         alignItems: 'center',
-        backgroundColor: 'transparent',
-        height: Dimensions.get('window').height * 0.25,
+        flex: 1,
         justifyContent: 'center',
+        width: Dimensions.get('window').width * 0.65,
     },
     buttonText: {
-        color: '#fa7e61',
+        color: '#FFFFFF',
         fontSize: '1.2rem',
-        fontWeight: 500,
+        fontWeight: '600px'
     },
-    overlay: {
-        ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(250, 126, 97, 0.8)',
+    container: {
+        backgroundColor: '#FFFFFF',
     },
     slidesContainer: {
-        backgroundColor: 'transparent',
-        height: Dimensions.get('window').height * 0.75,
-    }
+        height: Dimensions.get('window').height * 0.8,
+    },
+    slidesIndicatorContainer: {
+        width: Dimensions.get('window').width * 0.35,
+    },
 });
 
 export default OnboardingScreen;
