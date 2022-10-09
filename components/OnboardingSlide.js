@@ -1,38 +1,56 @@
 import React from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
 
 const OnboardingSlide = ({ item }) => {
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.desc}>{item.description}</Text>
+        <View style={ styles.container }>
+            <View style={ styles.slideImageContainer } >
+                <Image style={ styles.slideImage } source={ require('../img/r2f-temporary-logo-bw.png') }></Image>
+            </View>
+            <View style={ styles.textContainer } >
+                <Text style={ styles.heading }>{item.heading}</Text>
+                <Text style={ styles.body }>{item.body}</Text>
+            </View>
         </View>
     );
 }
 
-let styles = StyleSheet.create({
+const styles = StyleSheet.create({
+    body: {
+        color: '#FFFFFF',
+        fontSize: '20',
+        textAlign: 'center',
+    },
     container: {
         alignItems: 'center',
         flex: 1,
-        height: Dimensions.get('window').height * 0.75,
-        justifyContent: 'flex-end',
-        textAlign: 'center',
+        justifyContent: 'center',
         width: Dimensions.get('window').width,
     },
-    title: {
-        color: '#FF784F',
-        fontSize: '2.2rem',
-        fontWeight: '600',
-        paddingBottom: '10px',
-        paddingLeft: '30px',
-        paddingRight: '30px',
+    heading: {
+        color: '#FFFFFF',
+        fontSize: '40',
+        fontWeight: '800',
+        marginBottom: '5%',
+        textAlign: 'center',
     },
-    desc: {
-        color: '#333333',
-        fontSize: '1.2rem',
-        paddingLeft: '40px',
-        paddingRight: '40px',
-    }
+    slideImage: {
+        height: Dimensions.get('window').height * 0.3,
+        width: Dimensions.get('window').height * 0.3,
+    },
+    slideImageContainer: {
+        alignItems: 'center',
+        height: '60%',
+        justifyContent: 'flex-end',
+        width: Dimensions.get('window').width,
+    },
+    textContainer: {
+        alignItems: 'center',
+        height: '40%',
+        justifyContent: 'center',
+        paddingHorizontal: '10%',
+        width: Dimensions.get('window').width,
+    },
 });
 
 export default OnboardingSlide;

@@ -1,11 +1,16 @@
 import React from 'react';
 import { Text, View } from 'react-native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const ProfileSetupScreen = () => {
+import ProfileSetupName from './ProfileSetupNamePage';
+
+const Stack = createNativeStackNavigator();
+
+const ProfileSetupScreen = ({ navigation }) => {
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Profile Setup Screen</Text>
-        </View>
+        <Stack.Navigator initialRouteName='Profile Setup Name' screenOptions={{ headerShown: false }}>
+            <Stack.Screen name='Profile Setup Name' component={ ProfileSetupName }/>
+        </Stack.Navigator>
     );
 };
 
