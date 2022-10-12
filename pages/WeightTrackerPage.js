@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     },
     appButtonContainer: {
         elevation: 8,
-        backgroundColor: "#009688",
+        backgroundColor: "#f27329",
         borderRadius: 10,
         paddingVertical: 10,
         paddingHorizontal: 12,
@@ -28,6 +28,8 @@ const styles = StyleSheet.create({
         height: 40,
         margin: 12,
         borderWidth: 1,
+        borderColor: "white",
+        color: "white",
         padding: 10,
       },
 });
@@ -42,7 +44,7 @@ const WeightTrackerScreen = (props) => {
                 <Button
                     style={{fontSize: 20, color: 'green'}}
                     color="white"
-                    onPress={() => this._handlePress()}
+                    // onPress={() => this._handlePress()}
                     title="Enter Weight"
                 >
                 </Button>
@@ -54,16 +56,16 @@ const WeightTrackerScreen = (props) => {
             </View>
             <View style={styles.appButtonContainer}>
                 <Button
-                    style={{fontSize: 20, color: 'green'}}
+                    style={{fontSize: 20, color: 'Blue'}}
                     color="white"
-                    onPress={() => this._handlePress()}
+                    // onPress={() => this._handlePress()}
                     title="Enter Units"
                 >
 
                 </Button>
                 <TextInput
                     style={styles.input}
-                    onChangeText={onChangeText}
+                    // onChangeText={onChangeText}
                     value={text}
                 />
             </View>
