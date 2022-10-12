@@ -1,69 +1,27 @@
-//General Imports 
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-//Icon imports
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
-import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons'
-import EntypoIcon from 'react-native-vector-icons/Entypo'
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
+import OnboardingScreen from './pages/OnboardingPage';
+import ProfileSetupScreen from './pages/ProfileSetupPage';
+import SplashScreen from './pages/SplashPage';
+import ViewProfilesScreen from './pages/ViewProfilesPage';
+import HomeScreen from './pages/HomePage';
 
-//Page Imports
-import WorkoutScreen from './pages/WorkoutPage';
-import DietScreen from './pages/DietPage';
-import ProgressScreen from './pages/ProgressPage';
-import WaterTrackerScreen from './pages/WaterTrackerPage';
-import WeightTrackerScreen from './pages/WeightTrackerPage'; 
+const Stack = createNativeStackNavigator();
 
-//Other Imports
-import AppHeader from './components/AppHeader'
-
-
-//Navigation Labels
-const workoutLabel = "Workouts";
-const dietLabel = "Diet";
-const progressLabel = "Progress";
-const waterTrackerLabel = "Water"
-const weightTrackerLabel = "Weight"
-
-const Tab = createBottomTabNavigator();
-const ICON_SIZE = 20;
-const DEFAULT_ICON_COLOR = "#303030"
-const FOCUSED_ICON_COLOR = "#FE7422"
-
-export default function App() {
+const App = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName={progressLabel}
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            if (route.name === workoutLabel) {
-              return <FontAwesomeIcon name="bicycle" size={size} color={color}/>;
-            } else if (route.name === dietLabel) {
-              return <MaterialCommunityIcon name="food-apple" size={size} color={color}/>;
-            } else if (route.name === progressLabel) {
-              return <EntypoIcon name="clipboard" size={size} color={color}/>;
-            } else if (route.name === waterTrackerLabel) {
-              return <MaterialCommunityIcon name="water" size={size} color={color}/>;
-            } else if (route.name === weightTrackerLabel) {
-              return <FontAwesome5Icon name="weight" size={size} color={color}/>;
-            }
-          },
-          tabBarActiveTintColor: FOCUSED_ICON_COLOR,
-          tabBarInactiveTintColor: DEFAULT_ICON_COLOR,
-          header: () => <AppHeader />
-        })}
-      >
-        <Tab.Screen name={workoutLabel} component={WorkoutScreen} />
-        <Tab.Screen name={dietLabel} component={DietScreen} />
-        <Tab.Screen name={progressLabel} component={ProgressScreen} />
-        <Tab.Screen name={waterTrackerLabel} component={WaterTrackerScreen} />
-        <Tab.Screen name={weightTrackerLabel} component={WeightTrackerScreen} />
-      </Tab.Navigator>
+      <Stack.Navigator initialRouteName='Onboarding' screenOptions={{ headerShown: false }}>
+        <Stack.Screen name='Onboarding' component={ OnboardingScreen }/>
+        <Stack.Screen name='Profile Setup' component={ ProfileSetupScreen }/>
+        <Stack.Screen name='Splash' component={ SplashScreen }/>
+        <Stack.Screen name='View Profiles' component={ ViewProfilesScreen }/>
+        <Stack.Screen name='Home' component={ HomeScreen }/>
+      </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
+
+export default App;
