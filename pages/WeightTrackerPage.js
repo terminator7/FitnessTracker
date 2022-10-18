@@ -4,7 +4,7 @@ import { Text, View, Button, StyleSheet, SafeAreaView, TextInput } from 'react-n
 
 //Component Imports
 // *Insert Page imports here*
-import Buttons from '../components/Buttons';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const styles = StyleSheet.create({
     container: {
@@ -14,14 +14,14 @@ const styles = StyleSheet.create({
     },
     fittotext: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'center',
+        margin:10,
     },
     appButtonContainer: {
         elevation: 8,
         backgroundColor: "#f27329",
         borderRadius: 10,
-        paddingVertical: 10,
-        paddingHorizontal: 12,
+        padding: 12,
         margin: 7,
       },
       input: {
@@ -37,38 +37,45 @@ const styles = StyleSheet.create({
 const WeightTrackerScreen = (props) => {
     const [text, onChangeText] = React.useState("Add Here");
     const [number, onChangeNumber] = React.useState(null);
+    const [open, setOpen] = React.useState(false);
+    const [value, setValue] = React.useState(null);
+    const [items, setItems] = React.useState([
+      {label: 'Kilograms', value: 'kg'},
+      {label: 'Pounds', value: 'lbs'},
+      {label: 'Stones', value: 'stone'},
+    ]);
     return (
+        // Need to change styling of padding left for text
         <SafeAreaView style={styles.container}>
-
             <View style={styles.appButtonContainer}>
-                <Button
-                    style={{fontSize: 20, color: 'green'}}
-                    color="white"
-                    // onPress={() => this._handlePress()}
-                    title="Enter Weight"
-                >
-                </Button>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={onChangeText}
-                    value={text}
-                />
+                <Text style={{fontSize: 20, color: 'white', justifyContent: "center", paddingLeft:"34%"}}>Enter Weight</Text> 
+                    
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={onChangeText}
+                        value={text}
+                    />
+                    <DropDownPicker
+                    open={open}
+                    value={value}
+                    items={items}
+                    setOpen={setOpen}
+                    setValue={setValue}
+                    setItems={setItems}
+                    />
+                    <View style={{elevation: 8,
+        backgroundColor: "white",
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 50,
+        margin: 10,}}><Button
+                        style={{fontSize: 10, color: 'green'}}
+                        color="black"
+                        title="Submit"
+                    /></View>
+                
             </View>
-            <View style={styles.appButtonContainer}>
-                <Button
-                    style={{fontSize: 20, color: 'Blue'}}
-                    color="white"
-                    // onPress={() => this._handlePress()}
-                    title="Enter Units"
-                >
-
-                </Button>
-                <TextInput
-                    style={styles.input}
-                    // onChangeText={onChangeText}
-                    value={text}
-                />
-            </View>
+            
         </SafeAreaView>
     );
 }
