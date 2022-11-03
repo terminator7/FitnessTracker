@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
 });
 
 const WeightTrackerScreen = (props) => {
+    const [text, onChangeText] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState(null);
     const [items, setItems] = React.useState([
@@ -67,8 +68,8 @@ const WeightTrackerScreen = (props) => {
                             keyboardType="numeric"
                             placeholder="Add Weight Here"
                             style={styles.input}
-                            onChangeText={null}
-                            value={value}
+                            onChangeText={onChangeText}
+                            value={text}
                         />
                         <DropDownPicker
                             open={open}
@@ -97,6 +98,7 @@ const WeightTrackerScreen = (props) => {
             </SafeAreaView>
         </DismissKeyboard>
     );
+    
 }
 
 export default WeightTrackerScreen;
