@@ -1,10 +1,19 @@
 //General imports
 import React from "react";
-import { Text, View, Button, StyleSheet, SafeAreaView, TextInput } from 'react-native';
+import { Text, View, Button, StyleSheet, SafeAreaView, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 //Component Imports
 // *Insert Page imports here*
 import DropDownPicker from 'react-native-dropdown-picker';
+
+
+const DismissKeyboard = ({ children}) => (
+    <TouchableWithoutFeedback onPress ={() => Keyboard.dismiss()}>
+        {children}
+    </TouchableWithoutFeedback>
+);
+
+
 
 const styles = StyleSheet.create({
     container: {
@@ -41,7 +50,6 @@ const styles = StyleSheet.create({
 });
 
 const WeightTrackerScreen = (props) => {
-    const [text, onChangeText] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState(null);
     const [items, setItems] = React.useState([
@@ -51,40 +59,43 @@ const WeightTrackerScreen = (props) => {
     ]);
     return (
         // Need to change styling of padding left for text
-        <SafeAreaView style={styles.container}>
-            <View style={styles.appButtonContainer}>
-                <Text style={{fontSize: 20, color: 'white', justifyContent: "center", paddingLeft:"34%"}}>Enter Weight</Text> 
-                    <TextInput
-                        keyboardType="numeric"
-                        placeholder="Add Weight Here"
-                        style={styles.input}
-                        onChangeText={onChangeText}
-                        value={text}
-                    />
-                    <DropDownPicker
-                        open={open}
-                        value={value}
-                        items={items}
-                        setOpen={setOpen}
-                        setValue={setValue}
-                        setItems={setItems}
-                    />
-                    <View style={{elevation: 8,
-                        backgroundColor: "white",
-                        borderRadius: 10,
-                        paddingVertical: 10,
-                        paddingHorizontal: 50,
-                        margin: 10,}}>
-                    <Button
-                        onPress={console.log("Pressed")}
-                        style={{fontSize: 10, color: 'green'}}
-                        color="black"
-                        title="Submit"
-                    /></View>
-                
-            </View>
+        <DismissKeyboard>
+            <SafeAreaView style={styles.container}>
+                <View style={styles.appButtonContainer}>
+                    <Text style={{fontSize: 20, color: 'white', justifyContent: "center", paddingLeft:"34%"}}>Enter Weight</Text> 
+                        <TextInput
+                            keyboardType="numeric"
+                            placeholder="Add Weight Here"
+                            style={styles.input}
+                            onChangeText={null}
+                            value={value}
+                        />
+                        <DropDownPicker
+                            open={open}
+                            value={value}
+                            items={items}
+                            setOpen={setOpen}
+                            setValue={setValue}
+                            setItems={setItems}
+                        />
+                        <View style={{elevation: 8,
+                            backgroundColor: "white",
+                            borderRadius: 10,
+                            paddingVertical: 10,
+                            paddingHorizontal: 50,
+                            margin: 10,}}>
+                        <Button
+                            onPress={console.log("This is the value of weight and unit ")}
+                            style={{fontSize: 10, color: 'green'}}
+                            color="black"
+                            title="Submit"
+                        /></View>
+                    
+                </View>
             
-        </SafeAreaView>
+            
+            </SafeAreaView>
+        </DismissKeyboard>
     );
 }
 
