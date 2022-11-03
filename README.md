@@ -17,7 +17,7 @@ Each Page/Features of the application will be represented by a branch.
 1. Create and Check into Branch: <code>git checkout -b 'pageName'</code> 
 2. Access and Edit Branch (if not in branch already): <code>git checkout 'pageName' </code>
 3. Add changes to file into Branch: <code>git add *</code> or <code>git add .</code>
-4. Push branch to Repository: <code>git add push origin 'pageName'</code>
+4. Push branch to Repository: <code>git push origin 'pageName'</code>
 
 ## Repository Layout
 1. components folder: Will hold componets either designed for a specific page or universally for entire app
