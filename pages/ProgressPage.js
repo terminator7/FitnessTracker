@@ -161,42 +161,42 @@ const styles = StyleSheet.create({
 
 //5 of these in total, each one accesses the Updated Data
 //1 at the bottom is weight.
-var Protein = () => {
-    var Total = getMealProgress(ProfileIDFake);
+const Protein = () => {
+    let Total = getMealProgress(ProfileIDFake);
     //Parse info
 
     return (
       <Text>Your total is: {total}!</Text>
     );
   }
-var Calories = () => {
-    var Total = getMealProgress(ProfileIDFake);
+const Calories = () => {
+    let Total = getMealProgress(ProfileIDFake);
     return (
       <Text>Your total is: {total}!</Text>
     );
   }
-var Carbs = () => {
-    var total = getTotalFromOtherPage("Carbs");
+const Carbs = () => {
+    let total = getTotalFromOtherPage("Carbs");
     
     return (
       <Text>Your total is: {total}!</Text>
     );
   }
-var Fats = () => {
-    var total = getTotalFromOtherPage("Fats");
+const Fats = () => {
+    let total = getTotalFromOtherPage("Fats");
     return (
       <Text>Your total is: {total}!</Text>
     );
   }
-var Water = () => {
-    var Water_List = getWaterList(ProfileIDFake);
+const Water = () => {
+    let Water_List = getWaterList(ProfileIDFake);
     return (
       <Text>Your total is: {total}!</Text>
     );
     //Also insert progress, could use a progress bar.
   }
-  var Weight = () => {
-    var total = getWeightList(ProfileIDFake)
+ const Weight = () => {
+    let total = getWeightList(ProfileIDFake)
     return (
         <Text>Your total is: {total}!</Text>
       );
