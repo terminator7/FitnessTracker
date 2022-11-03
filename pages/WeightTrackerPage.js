@@ -33,7 +33,9 @@ const styles = StyleSheet.create({
         borderRadius: 7,
         borderColor: "black",
         color: "white",
-        padding: 5,
+        padding: 8,
+        paddingBottom: 22,
+        paddingTop: 22,
         backgroundColor: "white",
       },
 });
@@ -60,19 +62,21 @@ const WeightTrackerScreen = (props) => {
                         value={text}
                     />
                     <DropDownPicker
-                    open={open}
-                    value={value}
-                    items={items}
-                    setOpen={setOpen}
-                    setValue={setValue}
-                    setItems={setItems}
+                        open={open}
+                        value={value}
+                        items={items}
+                        setOpen={setOpen}
+                        setValue={setValue}
+                        setItems={setItems}
                     />
                     <View style={{elevation: 8,
-        backgroundColor: "white",
-        borderRadius: 10,
-        paddingVertical: 10,
-        paddingHorizontal: 50,
-        margin: 10,}}><Button
+                        backgroundColor: "white",
+                        borderRadius: 10,
+                        paddingVertical: 10,
+                        paddingHorizontal: 50,
+                        margin: 10,}}>
+                    <Button
+                        onPress={console.log("Pressed")}
                         style={{fontSize: 10, color: 'green'}}
                         color="black"
                         title="Submit"
