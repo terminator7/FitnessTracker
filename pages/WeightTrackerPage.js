@@ -26,17 +26,20 @@ const styles = StyleSheet.create({
       },
       input: {
         height: 40,
-        margin: 12,
+        width: "100%",
+        marginBottom: 5,
+        marginTop: 10,
         borderWidth: 1,
-        borderColor: "white",
+        borderRadius: 7,
+        borderColor: "black",
         color: "white",
-        padding: 10,
+        padding: 5,
+        backgroundColor: "white",
       },
 });
 
 const WeightTrackerScreen = (props) => {
-    const [text, onChangeText] = React.useState("Add Here");
-    const [number, onChangeNumber] = React.useState(null);
+    const [text, onChangeText] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState(null);
     const [items, setItems] = React.useState([
@@ -49,8 +52,9 @@ const WeightTrackerScreen = (props) => {
         <SafeAreaView style={styles.container}>
             <View style={styles.appButtonContainer}>
                 <Text style={{fontSize: 20, color: 'white', justifyContent: "center", paddingLeft:"34%"}}>Enter Weight</Text> 
-                    
                     <TextInput
+                        keyboardType="numeric"
+                        placeholder="Add Weight Here"
                         style={styles.input}
                         onChangeText={onChangeText}
                         value={text}
