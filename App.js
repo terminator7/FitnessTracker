@@ -10,7 +10,7 @@ import EntypoIcon from 'react-native-vector-icons/Entypo'
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
 
 //Page Imports
-import WorkoutScreen from './pages/WorkoutPage';
+import WorkoutNavigator from './pages/WorkoutNavigator';
 import DietScreen from './pages/DietPage';
 import ProgressScreen from './pages/ProgressPage';
 import WaterTrackerScreen from './pages/WaterTrackerPage';
@@ -34,7 +34,7 @@ const FOCUSED_ICON_COLOR = "#FE7422"
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer independent={true} >
       <Tab.Navigator
         initialRouteName={progressLabel}
         screenOptions={({ route }) => ({
@@ -58,7 +58,7 @@ export default function App() {
           header: () => <AppHeader />
         })}
       >
-        <Tab.Screen name={workoutLabel} component={WorkoutScreen} />
+        <Tab.Screen name={workoutLabel} component={WorkoutNavigator} />
         <Tab.Screen name={dietLabel} component={DietScreen} />
         <Tab.Screen name={progressLabel} component={ProgressScreen} />
         <Tab.Screen name={waterTrackerLabel} component={WaterTrackerScreen} />
