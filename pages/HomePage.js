@@ -9,7 +9,7 @@ import EntypoIcon from 'react-native-vector-icons/Entypo'
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
 
 //Page Imports
-import WorkoutScreen from './WorkoutPage';
+import WorkoutNavigator from './WorkoutNavigator';
 import DietScreen from './DietPage';
 import ProgressScreen from './ProgressPage';
 import WaterTrackerScreen from './WaterTrackerPage';
@@ -55,7 +55,7 @@ const HomeScreen = ({navigation}) => {
             header: () => <AppHeader />
         })}
         >
-            <Tab.Screen name={workoutLabel} component={WorkoutScreen} />
+            <Tab.Screen name={workoutLabel} component={WorkoutNavigator} />
             <Tab.Screen name={dietLabel} component={DietScreen} />
             <Tab.Screen name={progressLabel} component={ProgressScreen} />
             <Tab.Screen name={waterTrackerLabel} component={WaterTrackerScreen} />
