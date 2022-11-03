@@ -1,0 +1,26 @@
+[
+    {
+        "id": "0",
+        "img": null,
+        "heading": "Welcome to R2F",
+        "body": "Keep track of your fitness and dietary goals without effort."
+    },
+    {
+        "id": "1",
+        "img": null,
+        "heading": "Create Goals",
+        "body": "A minimal UI for setting both fitness and dietary plans."
+    },
+    {
+        "id": "2",
+        "img": null,
+        "heading": "Track Progress",
+        "body": "Keep up to date with your accomplishments."
+    },
+    {
+        "id": "3",
+        "img": null,
+        "heading": "All For Free",
+        "body": "Built to provide a free and reliable alternative to paid subscription fitness tracker apps."
+    }
+]
