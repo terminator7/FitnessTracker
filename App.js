@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+
+import { initalizeDatabase, refreshDataBase } from './util/database/DatabaseMethods';
+import { addProfile, getProfileList } from './util/database/ProfileMethods';
 
 import OnboardingScreen from './pages/OnboardingPage';
 import ProfileSetupScreen from './pages/ProfileSetupPage';
@@ -11,6 +15,25 @@ import HomeScreen from './pages/HomePage';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+
+  useEffect(() => {
+    //This Code is for Devlopment Purposes Only and will be removed on final product
+    let deleteDataBase = false
+    let generateData = false
+
+    if (deleteDataBase) {
+      refreshDataBase()
+    } else if(generateData) {
+      initalizeDatabase()
+      addProfile({gender:"M",firstName:"Jacob",lastName:"Douglas",theme:0,birthday:"Date('now')",height:5.0, initialWeight:200, activityLevel:0, weightUnits:"pounds", heightUnits:"feet"}, (result) => console.log(result))
+      getProfileList((result) => console.log(result))
+    } else {
+      initalizeDatabase()
+      getProfileList((result) => console.log(result))
+    }
+
+  }, [])
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Onboarding' screenOptions={{ headerShown: false }}>
