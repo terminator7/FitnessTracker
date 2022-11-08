@@ -23,7 +23,7 @@ const addMeal = ({profileID, mealName}, callback) => {
 //Description: Function will delete meal from profiles saved meals ** WILL DELEE FROM PROGRESS IF IT IS IN THERE **
 //Pre: Will accept the meal id number
 //Post: Will return True or False depending the transcation was completed or not
-const deleteMeal = (mealID) => {
+const deleteMeal = (mealID, callback) => {
     db.transaction(tx =>{
         tx.executeSql("DELETE FROM Diet WHERE id=?", mealID, () => callback(true), () => callback(false))
     })
@@ -31,10 +31,16 @@ const deleteMeal = (mealID) => {
 //Description: Function will return a list of meal progress based of the current user
 //Pre: Accepts a profileID as a string
 //Post: Will return an undefined variable if something went wrong, otherwise will return list of progress.
-const getMealProgress = (profileID) => {
+const getMealProgress = (profileID, callback) => {
     db.transaction(tx => {
         tx.executeSql("Select Diet.ProfileID,Diet.id,Diet.Name,ProfileMeals.Protein,ProfileMeals.Carbs,ProfileMeals.Fat,ProfileMeals.CaloriesAte,ProfileMeals.Date FROM Diet INNER JOIN ProfileMeals ON Diet.id=ProfileMeals.MealID WHERE Diet.ProfileID=?", profileID,(txObj, resultSet) => callback(resultSet.rows._array), () => callback(undefined))
     })
 }
 
-export {deleteMeal, addMeal, getMealsList, getMealProgress}
+const addMealToProgress = ({profileID, mealID, date, carbs, fats, protein, caloriesAte}, callback) => {
+    db.transaction(tx => {
+        tx.executeSql("INSERT INTO ProfileMeals VALUES (?,?,?,?,?,?,?)", [profileID, mealID, protein, fats, carbs, date, caloriesAte], () => callback(true), () => callback(false))
+    })
+}
+
+export {deleteMeal, addMeal, getMealsList, getMealProgress, addMealToProgress}

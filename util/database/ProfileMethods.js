@@ -35,7 +35,7 @@ const getProfileDetails = (profileID, callback) => {
 const addProfile = ({gender, firstName, lastName, theme = 0, birthday, height, initialWeight, activityLevel, weightUnits, heightUnits}, callback) => {
     //let transactionCompleted = false
     db.transaction(tx => {
-       tx.executeSql('INSERT INTO Profiles VALUES (?,?,?,?,?,?,?,?,?,?,?)', [generateID("PROFILE"), gender, firstName, lastName, birthday, height, initialWeight, activityLevel, theme, weightUnits, heightUnits], () => callback("Profile Created"), () => callback("Profile Not Created"))
+       tx.executeSql('INSERT INTO Profiles VALUES (?,?,?,?,?,?,?,?,?,?,?)', [generateID("PROFILE"), gender, firstName, lastName, birthday, height, initialWeight, activityLevel, theme, weightUnits, heightUnits], () => callback(true), () => callback(false))
     })
 }
 //Description: Will Remove profile from database

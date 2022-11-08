@@ -5,12 +5,16 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { initalizeDatabase, refreshDataBase } from './util/database/DatabaseMethods';
 import { addProfile, getProfileList } from './util/database/ProfileMethods';
+import { addMeal, addMealToProgress, getMealsList } from './util/database/MealsMethod'
+import { addWater } from './util/database/WaterTrackerMethods'
 
 import OnboardingScreen from './pages/OnboardingPage';
 import ProfileSetupScreen from './pages/ProfileSetupPage';
 import SplashScreen from './pages/SplashPage';
 import ViewProfilesScreen from './pages/ViewProfilesPage';
 import HomeScreen from './pages/HomePage';
+import { addWorkout, getWorkoutList, addWorkoutToProgress } from './util/database/WorkoutMethods';
+import { addWeight } from './util/database/WeightTrackerMethods';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,7 +24,7 @@ const App = () => {
     //This Code is for Devlopment Purposes Only and will be removed on final product
     let deleteDataBase = false
     let generateData = false
-
+    let testProfileID = null
     if (deleteDataBase) {
       refreshDataBase()
     } else if(generateData) {
@@ -29,9 +33,34 @@ const App = () => {
       getProfileList((result) => console.log(result))
     } else {
       initalizeDatabase()
-      getProfileList((result) => console.log(result))
-    }
+      getProfileList((result) => {
+        let testProfileID = result[0]["id"]
 
+        //Add Test data for other pages
+        addMeal({profileID:testProfileID, mealName:"Chicken & Beans"}, (result) => {
+          if(result) {
+            getMealsList(testProfileID, (result) => {
+              if(result) {
+                testMealID = result[0]["id"]
+                addMealToProgress({profileID: testProfileID, mealID: testMealID, date:"Date('now')", carbs:23, fats:12, protein:40, caloriesAte:400}, (progressresult) => "Meal " + testMealID + " Added: " +  progressresult)
+              }
+            })
+          }
+        })
+        addWater({profileID:testProfileID, amountOfWater:0.5, units:"gallons", date:"Date('now')"}, (result) => console.log("Water Added: " + result))
+        addWorkout({profileID:testProfileID, workoutName:"Chest Press", workoutType:"Chest"}, (result) => {
+          if(result) {
+            getWorkoutList(testProfileID, (result) => {
+              if(result) {
+                testWorkoutID = result[0]["id"]
+                addWorkoutToProgress({profileID: testProfileID, workoutID: testWorkoutID, date:"Date('now')", sets:3, reps:12, caloriesBurned:200}, (progressresult) => "Workout " + testProfileID + " Added: " +  progressresult)
+              }
+            })
+          }
+        })
+        addWeight({profileID:testProfileID, weight:203, date:"Date('now')", units:"pounds"}, (result) => console.log("Weight Added: " + result))   
+      }) 
+    }
   }, [])
 
   return (

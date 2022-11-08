@@ -32,10 +32,16 @@ const deleteWorkout = (workoutID, callback) => {
 //Description: Function will return a list of workout progress based of the current user
 //Pre: Accepts a profileID as a string
 //Post: Will return an undefined variable if something went wrong, otherwise will return list of progress.
-const getWorkoutProgress = (profileID) => {
+const getWorkoutProgress = (profileID, callback) => {
     db.transaction(tx => {
         tx.executeSql("Select ProfileWorkouts.ProfileID,Workouts.Name,Workouts.Type,ProfileWorkouts.Reps,ProfileWorkouts.Sets,ProfileWorkouts.Date,ProfileWorkouts.CaloriesBurned FROM Workouts INNER JOIN ProfileWorkouts ON Workouts.id=ProfileWorkouts.WorkoutID Where ProfileWorkouts.ProfileID=?", profileID, (txObj, resultSet) => callback(resultSet.rows._array), () => callback(undefined))
     })
 }
 
-export {deleteWorkout, addWorkout, getWorkoutList, getWorkoutProgress}
+const addWorkoutToProgress = ({profileID, workoutID, date, sets, reps, caloriesBurned}, callback) => {
+    db.transaction(tx => {
+        tx.executeSql("INSERT INTO ProfileWorkouts VALUES (?,?,?,?,?,?,?)", [profileID, workoutID, reps, sets, date, caloriesBurned], () => callback(true), () => callback(false))
+    })
+}
+
+export {deleteWorkout, addWorkout, getWorkoutList, getWorkoutProgress, addWorkoutToProgress}
