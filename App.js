@@ -24,7 +24,6 @@ const App = () => {
     //This Code is for Devlopment Purposes Only and will be removed on final product
     let deleteDataBase = false
     let generateData = false
-    let testProfileID = null
     if (deleteDataBase) {
       refreshDataBase()
     } else if(generateData) {
