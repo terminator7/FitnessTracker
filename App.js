@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import FlashMessage from 'react-native-flash-message'
 
 import OnboardingScreen from './pages/OnboardingPage';
 import ProfileSetupScreen from './pages/ProfileSetupPage';
@@ -20,6 +21,7 @@ const App = () => {
         <Stack.Screen name='View Profiles' component={ ViewProfilesScreen }/>
         <Stack.Screen name='Home' component={ HomeScreen }/>
       </Stack.Navigator>
+    <FlashMessage position='top'/>
     </NavigationContainer>
   );
 };
