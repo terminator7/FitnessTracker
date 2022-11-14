@@ -26,10 +26,14 @@ const styles = StyleSheet.create({
       },
       input: {
         height: 40,
+        marginLeft: 0,
+        marginRight: 0,
         margin: 12,
         borderWidth: 1,
-        borderColor: "white",
-        color: "white",
+        borderRadius: 5,
+        borderColor: "black",
+        color: "black",
+        backgroundColor: "white",
         padding: 10,
       },
 });
@@ -54,8 +58,10 @@ const WeightTrackerScreen = (props) => {
                         style={styles.input}
                         onChangeText={onChangeText}
                         value={text}
+                        placeholder="Add Here"
                     />
                     <DropDownPicker
+                    modalTitle="Add One"
                     open={open}
                     value={value}
                     items={items}
