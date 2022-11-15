@@ -34,25 +34,32 @@ const App = () => {
       initalizeDatabase()
       getProfileList((result) => {
         let testProfileID = result[0]["id"]
+        console.log(testProfileID)
 
-        //Add Test data for other pages
+        //Add Test data for other pages COMMENT OUT CODE IF YOU DO NOT WANT TO CONTINUE ADDING DATA
         addMeal({profileID:testProfileID, mealName:"Chicken & Beans"}, (result) => {
-          if(result) {
+          console.log("Meal Added: " + result)
+          if(result === true) {
             getMealsList(testProfileID, (result) => {
+              //console.log(result)
+              //console.log("Ths one: " + testProfileID)
               if(result) {
-                testMealID = result[0]["id"]
-                addMealToProgress({profileID: testProfileID, mealID: testMealID, date:"Date('now')", carbs:23, fats:12, protein:40, caloriesAte:400}, (progressresult) => "Meal " + testMealID + " Added: " +  progressresult)
+                let testMealID = result[0]["id"]
+                console.log("Meal ID: " + testMealID)
+                addMealToProgress({profileID: testProfileID, mealID: testMealID, date:"Date('now')", carbs:23, fats:12, protein:40, caloriesAte:400}, (progressresult) => console.log("Meal Progress for " + testMealID + " Added: " +  progressresult))
               }
             })
           }
         })
-        addWater({profileID:testProfileID, amountOfWater:0.5, units:"gallons", date:"Date('now')"}, (result) => console.log("Water Added: " + result))
+        addWater({profileID:testProfileID, amountOfWater:0.5, units:"gallons", date:"DATETIME('now', localtime)"}, (result) => console.log("Water Added: " + result))
         addWorkout({profileID:testProfileID, workoutName:"Chest Press", workoutType:"Chest"}, (result) => {
+          console.log("Workout Added: " + result)
           if(result) {
             getWorkoutList(testProfileID, (result) => {
               if(result) {
                 testWorkoutID = result[0]["id"]
-                addWorkoutToProgress({profileID: testProfileID, workoutID: testWorkoutID, date:"Date('now')", sets:3, reps:12, caloriesBurned:200}, (progressresult) => "Workout " + testProfileID + " Added: " +  progressresult)
+                console.log("WorkoutID: " + testWorkoutID)
+                addWorkoutToProgress({profileID: testProfileID, workoutID: testWorkoutID, date:"Date('now')", sets:3, reps:12, caloriesBurned:200}, (progressresult) => console.log("Workout " + testWorkoutID+ " Added: " +  progressresult))
               }
             })
           }

@@ -18,7 +18,7 @@ const initalizeDatabase = () => {
         tx.executeSql('CREATE TABLE IF NOT EXISTS Workouts (id VARCHAR(20) NOT NULL, Name VARCHAR(255) NOT NULL, Type VARCHAR(10) NOT NULL, ProfileID VARCHAR(20) NOT NULL, PRIMARY KEY (id), FOREIGN KEY (ProfileID) REFERENCES Profiles(id) ON DELETE CASCADE)')
         tx.executeSql('CREATE TABLE IF NOT EXISTS Diet (id VARCHAR(20) NOT NULL, Name VARCHAR(255) NOT NULL, ProfileID NOT NULL, PRIMARY KEY (id), FOREIGN KEY (ProfileID) REFERENCES Profiles(id) ON DELETE CASCADE)')
         tx.executeSql('CREATE TABLE IF NOT EXISTS ProfileWorkouts (ProfileID VARCHAR(20) NOT NULL, WorkoutID VARCHAR(20), Reps TINYINT NOT NULL, Sets TINYINT NOT NULL, Date DATE NOT NULL, CaloriesBurned INT, FOREIGN KEY (ProfileID) REFERENCES Profiles(id) ON DELETE CASCADE, FOREIGN KEY (WorkoutID) REFERENCES Workouts(id) ON DELETE RESTRICT)')
-        tx.executeSql('CREATE TABLE IF NOT EXISTS ProfileMeals (ProfileID VARCHAR(20) NOT NULL, MealID VARCHAR(20) , Protein FLOAT(3,2) NOT NULL, Fat FLOAT(3,2) NOT NULL, Carbs FLOAT(3,2) NOT NULL, CaloriesAte INT NOT NULL, FOREIGN KEY (ProfileID) REFERENCES Profiles(id) ON DELETE CASCADE, FOREIGN KEY (MealID) REFERENCES Diet(id) ON DELETE RESTRICT)')
+        tx.executeSql('CREATE TABLE IF NOT EXISTS ProfileMeals (ProfileID VARCHAR(20) NOT NULL, MealID VARCHAR(20) , Protein FLOAT(3,2) NOT NULL, Fat FLOAT(3,2) NOT NULL, Carbs FLOAT(3,2) NOT NULL, Date DATE NOT NULL, CaloriesAte INT NOT NULL, FOREIGN KEY (ProfileID) REFERENCES Profiles(id) ON DELETE CASCADE, FOREIGN KEY (MealID) REFERENCES Diet(id) ON DELETE RESTRICT)')
     }, () => console.log("Tables not created"), () => console.log("Tables created"))
 }
 

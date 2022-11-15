@@ -17,7 +17,7 @@ const getProfileList = (callback) => {
 //Post: Will return profile object
 const getProfileDetails = (profileID, callback) => {
     db.transaction(tx => {
-        tx.executeSql('SELECT * FROM Profiles Where id=?' ,profileID, (txObj, resultSet) => callback(resultSet.rows._array), (txtObj, error) => callback(undefined))
+        tx.executeSql('SELECT * FROM Profiles Where id = ?' ,[profileID], (txObj, resultSet) => callback(resultSet.rows._array), (txtObj, error) => callback(undefined))
     })
 }
 
@@ -43,7 +43,7 @@ const addProfile = ({gender, firstName, lastName, theme = 0, birthday, height, i
 //Post: Will Return True or False if the profile was removed
 const deleteProfile = (profileId, callback) => {
     db.transaction(tx => {
-        tx.executeSql('DELETE From Profile WHERE id=?', profileId, () => callback(true), () => callback(false))
+        tx.executeSql('DELETE From Profile WHERE id = ?', [profileId], () => callback(true), () => callback(false))
     })
 }
 

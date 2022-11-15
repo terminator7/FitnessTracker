@@ -8,25 +8,16 @@ const db = SQLite.openDatabase('appdatabase.db')
 //Post Will Return undefined if there is an error, and a list of waters if there is not an error
 const getWaterList = (profileID) => {
     db.transaction(tx => {
-        tx.executeSql("SELECT id, Date, WaterAmount, WaterUnits FROM WaterTracker WHERE ProfileID=?", profileID, (txObj, resultSet) => callback(resultSet.rows._array), (txtObj, error) => callback(undefined))
+        tx.executeSql("SELECT id, Date, WaterAmount, WaterUnits FROM WaterTracker WHERE ProfileID = ?", [profileID], (txObj, resultSet) => callback(resultSet.rows._array), (txtObj, error) => callback(undefined))
     })
 }
 
 //Description: Function will create a new water item for the selected user
 //Pre: Will accept a Name of the water, The type of water, and a ProfileID
 //Post: return True or False depending if there is the insertion was successful
-const addWater = ({profileID,amountOfWater,units,date = ""}, callback) => {
-    let transactionCompleted = false
-    let sqlString = ""
-    let sqlQueryParams = [amountOfWater, units, profileID]
-
-    if (date === "") {
-        sqlString = "INSERT INTO WaterTracker Values (?, DATETIME('NOW', 'LOCALTIME'), ?, ?)"
-    } else {
-        sqlString = "INSERT INTO WaterTracker Values (?,?,?)"
-        sqlQueryParams.unshift(date)
-    }
-    sqlQueryParams.unshift(generateID("WATER"))
+const addWater = ({profileID,amountOfWater,units,date}, callback) => {
+    let sqlQueryParams = [generateID("WATER"),date,amountOfWater, units, profileID]
+    let sqlString = "INSERT INTO WaterTracker Values (?, ?, ?, ?, ?)"
     db.transaction(tx =>{
         tx.executeSql(sqlString, sqlQueryParams, () => callback(true), () => callback(false))
     })
@@ -36,7 +27,7 @@ const addWater = ({profileID,amountOfWater,units,date = ""}, callback) => {
 //Post: Will return True or False depending the transcation was completed or not
 const deleteWater = (waterID, callback) => {
     db.transaction(tx =>{
-        tx.executeSql("DELETE FROM WaterTracker WHERE id=?", waterID, () => callback(true), () => callback(false))
+        tx.executeSql("DELETE FROM WaterTracker WHERE id = ?", [waterID], () => callback(true), () => callback(false))
     })
 }
 

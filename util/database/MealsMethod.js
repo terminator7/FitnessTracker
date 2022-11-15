@@ -8,7 +8,7 @@ const db = SQLite.openDatabase('appdatabase.db')
 //Post Will Return undefined if there is an error, and a list of meals if there is not an error
 const getMealsList = (profileID, callback) => {
     db.transaction(tx => {
-        tx.executeSql("SELECT id, Name FROM Diet WHERE ProfileID=?", profileID, (txObj, resultSet) => callback(resultSet.rows._array), (txtObj, error) => callback(undefined))
+        tx.executeSql("SELECT id, Name FROM Diet WHERE ProfileID = ?",[profileID], (txObj, resultSet) => callback(resultSet.rows._array), (txtObj, error) => callback(undefined))
     })
 }
 
@@ -25,7 +25,7 @@ const addMeal = ({profileID, mealName}, callback) => {
 //Post: Will return True or False depending the transcation was completed or not
 const deleteMeal = (mealID, callback) => {
     db.transaction(tx =>{
-        tx.executeSql("DELETE FROM Diet WHERE id=?", mealID, () => callback(true), () => callback(false))
+        tx.executeSql("DELETE FROM Diet WHERE id = ?", [mealID], () => callback(true), () => callback(false))
     })
 }
 //Description: Function will return a list of meal progress based of the current user
@@ -33,12 +33,12 @@ const deleteMeal = (mealID, callback) => {
 //Post: Will return an undefined variable if something went wrong, otherwise will return list of progress.
 const getMealProgress = (profileID, callback) => {
     db.transaction(tx => {
-        tx.executeSql("Select Diet.ProfileID,Diet.id,Diet.Name,ProfileMeals.Protein,ProfileMeals.Carbs,ProfileMeals.Fat,ProfileMeals.CaloriesAte,ProfileMeals.Date FROM Diet INNER JOIN ProfileMeals ON Diet.id=ProfileMeals.MealID WHERE Diet.ProfileID=?", profileID,(txObj, resultSet) => callback(resultSet.rows._array), () => callback(undefined))
+        tx.executeSql("Select Diet.ProfileID,Diet.id,Diet.Name,ProfileMeals.Protein,ProfileMeals.Carbs,ProfileMeals.Fat,ProfileMeals.CaloriesAte,ProfileMeals.Date FROM Diet INNER JOIN ProfileMeals ON Diet.id=ProfileMeals.MealID WHERE Diet.ProfileID = ?", [profileID],(txObj, resultSet) => callback(resultSet.rows._array), () => callback(undefined))
     })
 }
 
 const addMealToProgress = ({profileID, mealID, date, carbs, fats, protein, caloriesAte}, callback) => {
-    db.transaction(tx => {
+    db.transaction(tx =>{
         tx.executeSql("INSERT INTO ProfileMeals VALUES (?,?,?,?,?,?,?)", [profileID, mealID, protein, fats, carbs, date, caloriesAte], () => callback(true), () => callback(false))
     })
 }

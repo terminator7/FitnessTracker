@@ -9,7 +9,7 @@ const db = SQLite.openDatabase('appdatabase.db')
 const getWeightList = (profileID, callback) => {
     let weightList = [] 
     db.transaction(tx => {
-        tx.executeSql("SELECT id, Date, WeightAmount, WeightUnits FROM WeightTracker WHERE ProfileID=?", profileID, (txObj, resultSet) => callback(resultSet.rows._array), (txtObj, error) => callback(undefined))
+        tx.executeSql("SELECT id, Date, WeightAmount, WeightUnits FROM WeightTracker WHERE ProfileID = ?", [profileID], (txObj, resultSet) => callback(resultSet.rows._array), (txtObj, error) => callback(undefined))
     })
     return weightList
 }
@@ -17,18 +17,9 @@ const getWeightList = (profileID, callback) => {
 //Description: Function will create a new meal item for the selected user
 //Pre: Will accept a Name of the meal, The type of meal, and a ProfileID
 //Post: return True or False depending if there is the insertion was successful
-const addWeight = ({profileID,weight, units, date = ""}, callback) => {
-    let transactionCompleted = false
-    let sqlString = ""
-    let sqlQueryParams = [weight, units, profileID]
-
-    if (date === "") {
-        sqlString = "INSERT INTO WeightTracker Values (?, DATETIME('NOW', 'LOCALTIME'), ?, ?)"
-    } else {
-        sqlString = "INSERT INTO WeightTracker Values (?,?,?)"
-        sqlQueryParams.unshift(date)
-    }
-    sqlQueryParams.unshift(generateID("WEIGHT"))
+const addWeight = ({profileID,weight, units, date}, callback) => {
+    let sqlQueryParams = [generateID("WEIGHT"),date,weight, units, profileID]
+    let sqlString = "INSERT INTO WeightTracker Values (?, ?, ?, ?, ?)"
     db.transaction(tx =>{
         tx.executeSql(sqlString, sqlQueryParams, () => callback(true), () => callback(false))
     })
@@ -36,9 +27,9 @@ const addWeight = ({profileID,weight, units, date = ""}, callback) => {
 //Description: Function will delete meal from profiles saved meals ** WILL DELEE FROM PROGRESS IF IT IS IN THERE **
 //Pre: Will accept the meal id number
 //Post: Will return True or False depending the transcation was completed or not
-const deleteWeight = (waterID, callback) => {
+const deleteWeight = (weightID, callback) => {
     db.transaction(tx =>{
-        tx.executeSql("DELETE FROM WaterTracker WHERE id=?", waterID, () => callback(true), () => callback(false))
+        tx.executeSql("DELETE FROM WeightTracker WHERE id = ?", [weightID], () => callback(true), () => callback(false))
     })
 }
 
