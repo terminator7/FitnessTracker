@@ -6,23 +6,19 @@ const db = SQLite.openDatabase('appdatabase.db')
 //Description: Get list of all profiles and their information
 //Pre: None
 //Post: Will return an array of objects, object being the profile and its information
-const getProfileList = () => {
-    let profilesList = []
+const getProfileList = (callback) => {
     db.transaction(tx => {
-        tx.executeSql('SELECT id FROM Profiles' ,null, (txObj, resultSet) => profilesList = resultSet.rows._array, (txtObj, error) => profilesList = undefined)
+        tx.executeSql('SELECT id FROM Profiles' ,null, (txObj, resultSet) => callback(resultSet.rows._array), (txtObj, error) => callback(undefined))
     })
-    return profilesList
 }
 
 //Description: Get information just on one profile
 //Pre: profileID is accepted into its parameter
 //Post: Will return profile object
-const getProfileDetails = (profileID) => {
-    let profileInformation = []
+const getProfileDetails = (profileID, callback) => {
     db.transaction(tx => {
-        tx.executeSql('SELECT * FROM Profiles Where id=?' ,profileID, (txObj, resultSet) => profilesList = resultSet.rows._array, (txtObj, error) => profilesList = undefined)
+        tx.executeSql('SELECT * FROM Profiles Where id = ?' ,[profileID], (txObj, resultSet) => callback(resultSet.rows._array), (txtObj, error) => callback(undefined))
     })
-    return profileInformation[0]
 }
 
 //Description: Add profile to the database
@@ -36,35 +32,27 @@ const getProfileDetails = (profileID) => {
     height: float
     units: string */
 //Post: Will return true or false depending if the profile was added into the database or not
-const addProfile = (gender, firstName, lastName, theme = 0, birthday, height, initialWeight, activityLevel, weightUnits, heightUnits) => {
-    let transactionCompleted = false
+const addProfile = ({gender, firstName, lastName, theme = 0, birthday, height, initialWeight, activityLevel, weightUnits, heightUnits}, callback) => {
+    //let transactionCompleted = false
     db.transaction(tx => {
-        tx.executeSql('INSERT INTO Profiles VALUES = (?,?,?,?,?,?,?,?)', [generateID("PROFILE"), gender, firstName, lastName, birthday, height, initialWeight, activityLevel, theme, weightUnits, heightUnits], () => transactionCompleted = true, () => transactionCompleted = false)
+       tx.executeSql('INSERT INTO Profiles VALUES (?,?,?,?,?,?,?,?,?,?,?)', [generateID("PROFILE"), gender, firstName, lastName, birthday, height, initialWeight, activityLevel, theme, weightUnits, heightUnits], () => callback(true), () => callback(false))
     })
-    return transactionCompleted
 }
 //Description: Will Remove profile from database
 //Pre: Accepts profileID as String
 //Post: Will Return True or False if the profile was removed
-const deleteProfile = (profileId) => {
-    let transactionCompleted = false
-
+const deleteProfile = (profileId, callback) => {
     db.transaction(tx => {
-        tx.executeSql('DELETE From Profile WHERE id=?', profileId, () => transactionCompleted = true, () => transactionCompleted = false)
+        tx.executeSql('DELETE From Profile WHERE id = ?', [profileId], () => callback(true), () => callback(false))
     })
-
-    return transactionCompleted
 }
 
 //Description: Allows user to change theme for their profile
 //Pre: accepts the profileID as string and newTheme as a binary
 //Post: return true or false depending if the theme was actually updated
-const changeProfileTheme = (profileID, newTheme) => {
-    let transactionCompleted = false
+const changeProfileTheme = ({profileID, newTheme}, callback) => {
     db.transaction(tx => {
-        tx.executeSql('UPDATE Profiles Theme=? Where id=?', [newTheme, profileID],() => transactionCompleted = true, () => transactionCompleted = false)
+        tx.executeSql('UPDATE Profiles Theme=? Where id=?', [newTheme, profileID],() => callback(true), () => callback(false))
     })
-
-    return transactionCompleted
 }
 export {getProfileDetails, changeProfileTheme, deleteProfile, addProfile,  getProfileList}
