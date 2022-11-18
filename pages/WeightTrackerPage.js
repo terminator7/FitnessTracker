@@ -82,8 +82,6 @@ const WeightTrackerScreen = (props) => {
     };
 
     
-
-    const [number, onChangeNumber] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState(null);
     
