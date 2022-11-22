@@ -17,8 +17,8 @@ const WorkoutList = ({navigation}) => {
     return(
         <ScrollView>
             <View style = {styles.container}>
-                <WorkoutMiniCards workoutName= 'Bench Press' workoutType = 'Chest'></WorkoutMiniCards>
-                <WorkoutMiniCards workoutName= 'Dumbell Press' workoutType = 'Chest'></WorkoutMiniCards>
+                <WorkoutMiniCards navigation = {navigation} workoutName= 'Bench Press' workoutType = 'Chest'></WorkoutMiniCards>
+                <WorkoutMiniCards navigation = {navigation} workoutName= 'Dumbell Press' workoutType = 'Chest'></WorkoutMiniCards>
                 <View style = {styles.subContainer}>
                     <AddButton icon = {<EntypoIcon name="plus" size='24' color='white'/>} onPress ={() => navigation.push('Add Workout')}></AddButton>
                 </View>
