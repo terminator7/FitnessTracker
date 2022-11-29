@@ -7,8 +7,14 @@ const WorkoutCard = ({workoutName, workoutType, prevSets, prevReps, prevCalories
   const [isSetFocused, setSetFocus] = useState(false)
   const [isRepFocused, setRepFocus] = useState(false)
   const [isCaloriesFocused, setCaloriesFocus] = useState(false)
+
+  const setInputFocus = (set, rep, calories) => {
+    setSetFocus(set)
+    setRepFocus(rep)
+    setCaloriesFocus(calories)
+  }
     return (
-        <View style={ styles.container}>
+      <View style={ styles.container}>
           <View style = {styles.cardHeader}>
             <Text style = { styles.workoutName}>{workoutName}</Text>
             <Text style = { styles.workoutType}>{workoutType}</Text>
@@ -16,38 +22,43 @@ const WorkoutCard = ({workoutName, workoutType, prevSets, prevReps, prevCalories
         <View style ={ styles.cardContent}>
           <View style = {styles.inputField}>
             <Text style = { styles.setsTitle}>Sets: </Text>         
-            <TextInput style = {[styles.input, {borderBottomColor: isSetFocused?'orange':'black'}]} placeholder = {prevSets} keyboardType = "numeric" onFocus= {() => setSetFocus (true)}></TextInput>
+            <TextInput style = {[styles.input, {borderBottomColor: isSetFocused?'orange':'black'}]} placeholder = {prevSets} keyboardType = "numeric" onFocus= {() => setInputFocus(1, 0, 0)}></TextInput>
           </View>
           <View style = {styles.inputField}>
             <Text style = { styles.repsTitle}>Reps: </Text>         
-            <TextInput style = {[styles.input, {borderBottomColor: isRepFocused?'orange':'black'}]} placeholder = {prevReps} keyboardType = "numeric" onFocus= {() => setRepFocus (true)}></TextInput>         
+            <TextInput style = {[styles.input, {borderBottomColor: isRepFocused?'orange':'black'}]} placeholder = {prevReps} keyboardType = "numeric" onFocus= {() => setInputFocus(0, 1, 0)}></TextInput>         
           </View>
           <View style = {styles.inputField}>
             <Text style = { styles.caloriesTitle}>Calories Burnt: </Text>
-            <TextInput style = {[styles.input, {borderBottomColor: isCaloriesFocused?'orange':'black'}]} placeholder = {prevReps} keyboardType = "numeric" onFocus= {() => setCaloriesFocus (true)}></TextInput>         
+            <TextInput style = {[styles.input, {borderBottomColor: isCaloriesFocused?'orange':'black'}]} placeholder = {prevReps} keyboardType = "numeric" onFocus= {() => setInputFocus(0, 0, 1)}></TextInput>         
           </View>
         </View>
-          
-        </View>
+      </View> 
     );
 }
 
 const styles = StyleSheet.create({
   container: {
-      borderWidth: 3,
-      borderRadius: 15,
       width: '100%',
-      marginBottom: 20
+      marginBottom: 30,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 7,
+      },
+      shadowOpacity: 0.43,
+      shadowRadius: 9.51,
+      elevation: 15,
   },
   title: {
     fontWeight: 'bold'
   },
   cardHeader: {
     backgroundColor: "#FE7422",
-    borderTopRightRadius: 12,
-    borderTopLeftRadius: 12,
     padding: 10,
-    alignItems: 'center'
+    flex: 1,
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4
   },
   workoutName: {
     fontWeight: 'bold',
@@ -57,11 +68,14 @@ const styles = StyleSheet.create({
   },
   workoutType: {
     fontStyle: 'italic',
-    color: '#FCB419',
+    color: 'white',
     fontWeight: '500'
   },
   cardContent: {
-    padding: 10
+    padding: 10,
+    backgroundColor: "white",
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4
   },
   input:{
     borderBottomWidth: 1.25,

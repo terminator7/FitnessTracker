@@ -1,7 +1,7 @@
 import react, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import WorkoutCard from "./WorkoutCard";
 import EntypoIcon from 'react-native-vector-icons/Entypo'
+import MealCard from "./MealCard";
 
 const AddButton = ({icon, onPress}) => {
     return(
@@ -11,7 +11,7 @@ const AddButton = ({icon, onPress}) => {
     )
 }
 
-const WorkoutDay = ({date = "Today", navigation}) => {
+const DietDay = ({date = "Today", navigation}) => {
     return(
         <View style = {styles.container}>
             <View style = {styles.dateHeader}>
@@ -19,9 +19,9 @@ const WorkoutDay = ({date = "Today", navigation}) => {
                     {date}
                 </Text>
             </View>
-            <WorkoutCard workoutName = 'Bench Press' workoutType='Chest'></WorkoutCard>
-            <WorkoutCard workoutName = 'Dumbell Row' workoutType='Back'></WorkoutCard>
-            <AddButton icon = {<EntypoIcon name="plus" size='24' color='white'/>} onPress ={() => navigation.push('Workout List')}></AddButton>
+            <MealCard MealName= "Pizza Rolls"></MealCard>
+            <MealCard MealName= "CheeseBurger"></MealCard>
+            <AddButton icon = {<EntypoIcon name="plus" size='24' color='white'/>} onPress ={() => navigation.push('MealList')}></AddButton>
         </View>
     )
 
@@ -56,4 +56,4 @@ const styles = StyleSheet.create({
     }
     });
 
-export default WorkoutDay
+export default DietDay

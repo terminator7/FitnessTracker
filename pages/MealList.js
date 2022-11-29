@@ -1,8 +1,6 @@
 import react from "react";
 import { StyleSheet, Text, View, Button, ButtonStyle, ScrollView, TouchableOpacity } from 'react-native';
-import WorkoutCard from "../components/WorkoutCard";
-import WorkoutDay from "../components/WorkoutDay";
-import WorkoutMiniCards from "../components/WorkoutMiniCards";
+import MealMiniCard from "../components/MealMiniCard";
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 
 const AddButton = ({icon, onPress}) => {
@@ -13,15 +11,15 @@ const AddButton = ({icon, onPress}) => {
     )
 }
 
-const WorkoutList = ({navigation}) => {
+const MealList = ({navigation}) => {
     return(
         <ScrollView style = {{backgroundColor: "rgba(46, 180, 153, 0.7)"}}>
             <View style = {styles.container}>
-                <WorkoutMiniCards navigation = {navigation} workoutName= 'Bench Press' workoutType = 'Chest'></WorkoutMiniCards>
-                <WorkoutMiniCards navigation = {navigation} workoutName= 'Dumbell Press' workoutType = 'Chest'></WorkoutMiniCards>
+                <MealMiniCard navigation = {navigation} mealName="Pizza Rolls"></MealMiniCard>
+                <MealMiniCard navigation = {navigation} mealName="CheeseBurgers"></MealMiniCard>
             </View>
             <View style = {styles.buttonContainer}>
-                <AddButton icon = {<EntypoIcon name="plus" size='24' color='white'/>} onPress ={() => navigation.push('Add Workout')}></AddButton>
+                <AddButton icon = {<EntypoIcon name="plus" size='24' color='white'/>} onPress ={() => navigation.push('AddMeal')}></AddButton>
             </View>
         </ScrollView>
     );
@@ -41,4 +39,4 @@ const styles = StyleSheet.create({
         padding: 20,
     },
 });
-export default WorkoutList;
+export default MealList;
