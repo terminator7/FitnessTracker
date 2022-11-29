@@ -2,7 +2,7 @@
 import React from "react";
 import { Text, View, StyleSheet, Button, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native'
 //Component Imports
-import WorkoutCard from '../components/WorkoutCard'
+import WorkoutCard from '../components/WorkoutCard';
 import WorkoutDay from "../components/WorkoutDay";
 import WorkoutList from "./WorkoutList";
 import { NavigationContainer } from '@react-navigation/native';

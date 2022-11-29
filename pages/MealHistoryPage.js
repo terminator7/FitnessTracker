@@ -1,8 +1,6 @@
 //General imports
 import React from "react";
-import { Text, View, StyleSheet, Button, Alert, TextInput, TouchableOpacity } from 'react-native'
-import AddMealButton from "../components/AddMealButton";
-import { NavigationContainer } from '@react-navigation/native';
+import { Text, View, StyleSheet, Button, Alert, TextInput } from 'react-native'
 
 //Component Imports
 // *Insert Page imports here*
@@ -10,27 +8,21 @@ import MealCard from '../components/MealCard';
 
 //createStackNavigator( RouteConfigs, StackNavigatorConfig);
 
-const DietScreen = ({navigation}) => {
+const MealHistoryPage = (props) => {
     return (
-        <View style={styles.container}>
-        <Text style={styles.Title}>Diet Page</Text>
-        <Text style={styles.Padding}></Text>
-        <MealCard MealName= 'Pizza Rolls' MealDate= 'today'></MealCard>
-        <Text style={styles.Button}>
-        <TouchableOpacity
-        style={styles.buttonContainer}
-        onPress={() => navigation.push('AddDietScreen')}>
-        <Text style={styles.buttonText}>Add</Text>
-        </TouchableOpacity>
-        </Text>
-        </View>
-    );
+      <View style={styles.container}>
+      <Text style={styles.Title}>Meal History</Text>
+      <Text style={styles.Padding}></Text>
+      <MealCard MealName= 'Pizza Rolls' MealDate= 'today'></MealCard>
+      <Text style={styles.Button}>
+      </Text>
+      </View>
+  );  
 }
 
 const styles = StyleSheet.create({
     container: {
       marginTop: 10,
-      padding: 30
     },
     Title: {
       color: 'black',
@@ -60,10 +52,6 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         marginHorizontal: "37%",
     },
-    buttonText: {
-      fontSize: 20,
-      color: '#000000'
-    },
   });
 
-export default DietScreen;
+export default MealHistoryPage;
