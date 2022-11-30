@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import FlashMessage from 'react-native-flash-message'
 
 
 import { initalizeDatabase, refreshDataBase } from './util/database/DatabaseMethods';
@@ -78,6 +79,7 @@ const App = () => {
         <Stack.Screen name='View Profiles' component={ ViewProfilesScreen }/>
         <Stack.Screen name='Home' component={ HomeScreen }/>
       </Stack.Navigator>
+    <FlashMessage position='top'/>
     </NavigationContainer>
   );
 };
