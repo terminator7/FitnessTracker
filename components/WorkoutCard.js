@@ -1,5 +1,22 @@
 import react, { useState } from "react";
-import { StyleSheet, Text, View, Button, TextInput, Dimensions, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Dimensions, TouchableOpacity } from 'react-native';
+import EntypoIcon from 'react-native-vector-icons/Entypo'
+
+const UpdateButton = ({text, onPress}) => {
+  return(
+      <TouchableOpacity style = {styles.finishButton} onPress = {onPress}>
+          <View style = {{alignItems: 'center'}}><Text style={styles.finishButtonText}>{text}</Text></View>
+      </TouchableOpacity>
+  )
+}
+
+const DeleteButton = ({icon, onPress}) => {
+  return(
+      <TouchableOpacity style = {styles.addButton} onPress = {onPress}>
+          <View style = {{alignItems: 'center'}}>{icon}</View>
+      </TouchableOpacity>
+  )
+}
 
 
 const WorkoutCard = ({workoutName, workoutType, prevSets, prevReps, prevCalories}) => {
@@ -16,8 +33,13 @@ const WorkoutCard = ({workoutName, workoutType, prevSets, prevReps, prevCalories
     return (
       <View style={ styles.container}>
           <View style = {styles.cardHeader}>
-            <Text style = { styles.workoutName}>{workoutName}</Text>
-            <Text style = { styles.workoutType}>{workoutType}</Text>
+            <View style= {styles.leftCardHeader}>
+              <Text style = { styles.workoutName}>{workoutName}</Text>
+              <Text style = { styles.workoutType}>{workoutType}</Text>
+            </View>
+            <View style= {styles.rightCardHeader}>
+              <DeleteButton icon={<EntypoIcon name="trash" size='24' color='white'/>}></DeleteButton>
+            </View>
           </View>
         <View style ={ styles.cardContent}>
           <View style = {styles.inputField}>
@@ -31,6 +53,9 @@ const WorkoutCard = ({workoutName, workoutType, prevSets, prevReps, prevCalories
           <View style = {styles.inputField}>
             <Text style = { styles.caloriesTitle}>Calories Burnt: </Text>
             <TextInput style = {[styles.input, {borderBottomColor: isCaloriesFocused?'orange':'black'}]} placeholder = {prevReps} keyboardType = "numeric" onFocus= {() => setInputFocus(0, 0, 1)}></TextInput>         
+          </View>
+          <View style={{paddingTop: 25, paddingHorizontal: 60, paddingBottom: 10}}>
+            <UpdateButton text="Update"></UpdateButton>
           </View>
         </View>
       </View> 
@@ -58,7 +83,9 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 1,
     borderTopLeftRadius: 4,
-    borderTopRightRadius: 4
+    borderTopRightRadius: 4,
+    justifyContent: "space-between",
+    flexDirection: "row"
   },
   workoutName: {
     fontWeight: 'bold',
@@ -87,6 +114,17 @@ const styles = StyleSheet.create({
     alignContent: 'flex-end',
     padding: 5,
     justifyContent: 'space-between',
+  },
+  finishButton : {
+    padding: 5,
+    backgroundColor: "#FE7422",
+    color: "white",
+    borderRadius: 10
+  },
+  finishButtonText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "600"
   }
   });
 export default WorkoutCard;
