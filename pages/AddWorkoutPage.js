@@ -14,7 +14,7 @@ const AddButton = ({icon, onPress}) => {
     )
 }
 
-const AddWorkoutPage = () => {
+const AddWorkoutPage = ({navigation}) => {
     const [isSetFocused, setSetFocus] = useState(false)
     const [isRepFocused, setRepFocus] = useState(false)
     const [isCaloriesFocused, setCaloriesFocus] = useState(false)
@@ -30,7 +30,7 @@ const AddWorkoutPage = () => {
                     <TextInput style = {[styles.input, {borderBottomColor: isRepFocused?'orange':'black'}]} onFocus= {() => setRepFocus (true)}></TextInput>         
                 </View>
                 <View style = {styles.subContainer}>
-                    <Pressable style = {styles.addButton} onPress ={() => navigation.push('Workout List')}><Text style = {{color: 'white', fontSize: 15}}>Finish</Text></Pressable>
+                    <Pressable style = {styles.addButton} onPress ={() => navigation.navigate('Workout List')}><Text style = {{color: 'white', fontSize: 15}}>Finish</Text></Pressable>
                 </View>
         </View>
       </View>

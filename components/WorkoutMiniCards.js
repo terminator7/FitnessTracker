@@ -1,19 +1,21 @@
 import react, { useState } from "react";
-import { StyleSheet, Text, View, Button, TextInput, Dimensions, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Dimensions, TouchableWithoutFeedback, Pressable } from 'react-native';
 
 
-const WorkoutMiniCards = ({workoutName, workoutType}) => {
+const WorkoutMiniCards = ({workoutName, workoutType, navigation}) => {
 
   const [isSetFocused, setSetFocus] = useState(false)
   const [isRepFocused, setRepFocus] = useState(false)
   const [isCaloriesFocused, setCaloriesFocus] = useState(false)
     return (
+      <Pressable onPress ={() => navigation.navigate('Main')}>
         <View style={ styles.container}>
           <View style = {styles.cardHeader}>
             <Text style = { styles.workoutName}>{workoutName}</Text>
             <Text style = { styles.workoutType}>{workoutType}</Text>
           </View>
        </View>
+      </Pressable>
     );
 }
 
