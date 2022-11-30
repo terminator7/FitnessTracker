@@ -88,7 +88,7 @@ const WeightTrackerScreen = (props) => {
     const [value, setValue] = React.useState(null);
     
     const [items, setItems] = React.useState([
-      {label: 'Select an item', value: ''},
+      {label: 'Select a unit', value: ''},
       {label: 'Kilograms', value: 'kg'},
       {label: 'Pounds', value: 'lbs'},
     ]);
