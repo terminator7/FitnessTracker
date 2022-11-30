@@ -10,6 +10,7 @@ const AddWater = () => {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
     const [items, setItems] = useState([
+        {label: 'mL', value: 'milliliters'},
         {label: 'L', value: 'liters'},
         {label: 'fl. oz.', value: 'fluid ounces'}
     ]);
@@ -37,8 +38,8 @@ const WaterTrackerScreen = (props) => {
   };
     return (
         <View>
-            <Text style={style.waterTracker}>(WaterAmount)/1 Gallon</Text>
-            <Text style ={style.title}>Water Tracking</Text>
+            <Text style={style.waterTracker}>(Total Water)/1 Gallon</Text>
+            <Text style={style.title}>Recommended Daily Intake 1 Gallon</Text>
             <View style={style.button}>
                 <Button 
                 title="+"
@@ -76,7 +77,7 @@ const style = StyleSheet.create({
         justifyContent: 'flex-end',
         fontSize:30,
         height: 40,
-        marginTop: 20,
+        marginTop: 90,
         marginBottom:50,
         marginHorizontal: "30%",
         backgroundColor: "#FE7422",
@@ -91,7 +92,7 @@ const style = StyleSheet.create({
         marginRight: "25%",
     },
     title: {
-        fontSize: 30,
+        fontSize: 20,
         marginTop: 50,
         textAlign: 'center',
     },
