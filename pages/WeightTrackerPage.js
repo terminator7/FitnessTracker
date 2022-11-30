@@ -76,14 +76,12 @@ const WeightTrackerScreen = (props) => {
         weight: '',
         units: '',
     });
-    const [errors, setErrors] = React.useState({});
+    
     const HandleOnChange = (text, input) => {
         setInputs((prevState =>({...prevState, [input]: text})));
     };
 
     
-
-    const [number, onChangeNumber] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState(null);
     
