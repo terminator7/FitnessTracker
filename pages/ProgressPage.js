@@ -5,9 +5,9 @@ import { SafeAreaView} from "react-native-safe-area-context";
 
 
 //DB Imports
-//import {getWaterList} from "/util/database/WaterTrackerMethods.js"
-//import {getWeightList} from "./util/database/WeightTrackerMethods.js"
-//import {getMealProgress} from "./util/database/MealsMethod.js"
+//import {getWaterList} from "../util/database/WaterTrackerMethods.js"
+//import {getWeightList} from "../util/database/WeightTrackerMethods.js"
+//import {getMealProgress} from "../util/database/MealsMethod.js"
 //import {getWorkoutProgress} from "../util/database/WorkoutMethods"
 
 
