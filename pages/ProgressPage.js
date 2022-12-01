@@ -1,9 +1,10 @@
 //General imports
 import * as React from 'react';
-import { Text, View, Button, Alert, StyleSheet, TextComponent } from 'react-native'
-import { SafeAreaView} from "react-native-safe-area-context";
-
-
+import { Text, View, Button, Alert, StyleSheet, TextComponent, ScrollView, Dimensions} from 'react-native'
+import WorkoutProgressCard from "../components/WorkoutProgressCard"
+import DietProgressCircle from '../components/DietProgressCircle';
+import DietSummaryCard from '../components/DietSummaryCard';
+import { LineChart } from 'react-native-chart-kit';
 //DB Imports
 //import {getWaterList} from "../util/database/WaterTrackerMethods.js"
 //import {getWeightList} from "../util/database/WeightTrackerMethods.js"
@@ -26,79 +27,144 @@ Lastly, use a touchable to return the opacity, and remove all the extra informat
 
 const ProgressScreen = (props) => {
 
+    const screenWidth = Dimensions.get("window").width;
+
+    const weightData = {
+        labels: ["Date 1", "Date 2", "Date 3", "Date 4", "Date 5"],
+        datasets: [
+          {
+            data: [220, 215, 205, 210, 215],
+            color: () => `#FE7422`, // optional
+            strokeWidth: 5 // optional
+          }
+        ],
+    }
+
+    const waterData = {
+        labels: ["Date 1", "Date 2", "Date 3", "Date 4", "Date 5"],
+        datasets: [
+          {
+            data: [.3, .4, .23, .6, 1],
+            color: () => `#FE7422`, // optional
+            strokeWidth: 5 // optional
+          }
+        ],
+    }
+
+    const chartConfig = {
+        backgroundGradientFrom: "white",
+        backgroundGradientFromOpacity: 1,
+        backgroundGradientTo: "white",
+        backgroundGradientToOpacity: 1,
+        color: () => `#FE7422`,
+        strokeWidth: 2, // optional, default 3
+        barPercentage: 0.5,
+        useShadowColorFromDataset: false, // optional
+        propsForVerticalLabels: {fontWeight: "bold"},
+        propsForHorizontalLabels: {fontWeight: "bold"}
+      };
     return (
-        <React.Fragment> 
-            <View style={styles.Header}>
-                <Text>
-                    Progress Page - Check your current progress for the week!
-                </Text>   
-            </View>
+        <ScrollView style={styles.scrollContainer}>
+            <View style={styles.container}>
+                <View style={styles.greetingHeader}>
+                    <Text style={{textAlign: "center", fontWeight: "bold", color: "white", fontSize: 50}}>Hello Jacob</Text>
+                    <Text style={{textAlign: "center", fontWeight: "700", color: "white", fontSize: 25, marginTop: 10}}>Lets see your progress</Text>
+                </View>
 
-            <View style={styles.TotalSheet}>
-                <Text >
-                Total Calories
-                </Text>
-                <View style={styles.Total}>         
-                    <Calories>
-                    </Calories>         
+                <View style={styles.progressContainer}>
+                    <View style={styles.progressContainerHeading}>
+                        <Text style={styles.progressHeadingText}>Workout Progress</Text>
+                    </View>
+                    <WorkoutProgressCard workoutName="Bench Press" previous={30} mostRecent={100}></WorkoutProgressCard>
+                    <WorkoutProgressCard workoutName="Dumbell Row" previous={100} mostRecent={30}></WorkoutProgressCard>
+                </View>
+                <View style={styles.progressContainer}>
+                    <View style={styles.progressContainerHeading}>
+                        <Text style={styles.progressHeadingText}>Diet Progress</Text>
+                    </View>
+                    <DietSummaryCard totalProtein={200} totalCarbs={100} totalFats={100} totalCalories={900}></DietSummaryCard>
+                    <View style={styles.progressCircleContainer}>
+                        <DietProgressCircle title="Maintain" currentTotal={900} requiredTotal={2500}></DietProgressCircle>
+                        <DietProgressCircle title="Loose" currentTotal={900} requiredTotal={2000}></DietProgressCircle>
+                        <DietProgressCircle title="Gain" currentTotal={900} requiredTotal={2800}></DietProgressCircle>
+                        <DietProgressCircle title="Protein" currentTotal={200} requiredTotal={400}></DietProgressCircle>
+                        <DietProgressCircle title="Carbs" currentTotal={100} requiredTotal={400}></DietProgressCircle>
+                        <DietProgressCircle title="Fats" currentTotal={100} requiredTotal={400}></DietProgressCircle>
+                    </View>
+                </View>
+                <View style={styles.progressContainer}>
+                    <View style={styles.progressContainerHeading}>
+                        <Text style={styles.progressHeadingText}>Water Progress</Text>
+                    </View>
+                    <LineChart
+                        data={weightData}
+                        width={screenWidth - 50}
+                        height={250}
+                        chartConfig={chartConfig}
+                        style = {styles.lineGraph}
+                    />
+                </View>
+                <View style={styles.progressContainer}>
+                    <View style={styles.progressContainerHeading}>
+                        <Text style={styles.progressHeadingText}>Weight Progress</Text>
+                    </View>
+                    <LineChart
+                        data={waterData}
+                        width={screenWidth - 50}
+                        height={250}
+                        chartConfig={chartConfig}
+                        style = {styles.lineGraph}
+                    />
                 </View>
             </View>
-
-            <View style={styles.TotalSheet}>
-                <Text class="Proteins">
-                Total Proteins
-                </Text>
-                <View style={styles.Total}>         
-                    <Protein>
-                    </Protein>         
-                </View>
-            </View>
-
-            <View style={styles.TotalSheet}>
-                <Text class="Carbs">
-                Total Carbs
-                </Text>
-                <View style={styles.Total}>         
-                    <Carbs>
-                    </Carbs>         
-                </View>
-            </View>
-
-            <View style={styles.TotalSheet}>
-                <Text class="Fats">
-                Total Fats
-                </Text>
-                <View style={styles.Total}>         
-                    <Fats>
-                    </Fats>         
-                </View>
-            </View>
-
-            <View style={styles.TotalSheet}>
-                <Text class="Water">
-                Total Water
-                </Text>
-                <View style={styles.Total}>         
-                    <Water>
-                    </Water>         
-                </View>
-            </View>
-            <View style={styles.TotalSheet}>
-                <Text class="Weight">
-                Total Weight
-                </Text>
-                <View style={styles.Total}>         
-                    <Weight>
-                    </Weight>         
-                </View>
-            </View>
-        </React.Fragment>
+        </ScrollView>
     );
 }
 
 
 
 const styles = StyleSheet.create({
+    lineGraph: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 7,
+        },
+        shadowOpacity: 0.43,
+        shadowRadius: 9.51,
+        elevation: 15,
+        borderRadius: 4,
+    },
+    progressCircleContainer: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: "center",
+        justifyContent: "space-between"
+    },
+    progressContainer: {
+        padding: 25,
+    },
+    progressContainerHeading: {
+        marginBottom: 25,
+        borderBottomWidth: 3,
+        padding: 5,
+        width: '100%',
+        justifyContent: 'center',
+        borderBottomColor: "white"
+    },
+    progressHeadingText: {
+        textAlign: "center",
+        color: "white",
+        fontSize: 35,
+        fontWeight: "900"
+    },
+    greetingHeader: {
+        paddingTop: 50,
+        marginBottom: 40
+    },
+    scrollContainer: {
+        backgroundColor: "rgba(46, 180, 153, 0.7)"
+    },
     Background: {
         backgroundColor: "#FFF",
         justifyContent: "center",
