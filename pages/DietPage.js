@@ -1,29 +1,31 @@
 //General imports
 import React from "react";
-import { Text, View, StyleSheet, Button, Alert, TextInput, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, Button, Alert, TextInput, TouchableOpacity, TouchableWithoutFeedback, ScrollView, Keyboard } from 'react-native'
 import AddMealButton from "../components/AddMealButton";
+import DietDay from "../components/DietDay"
 import { NavigationContainer } from '@react-navigation/native';
 
 //Component Imports
 // *Insert Page imports here*
-import MealCard from '../components/MealCard';
+import MealCard from '../components/MealCard'
 
-//createStackNavigator( RouteConfigs, StackNavigatorConfig);
+
+const DismissKeyboard = ({ children}) => (
+  <TouchableWithoutFeedback onPress ={() => Keyboard.dismiss()}>
+      {children}
+  </TouchableWithoutFeedback>
+);
 
 const DietScreen = ({navigation}) => {
     return (
-        <View style={styles.container}>
-        <Text style={styles.Title}>Diet Page</Text>
-        <Text style={styles.Padding}></Text>
-        <MealCard MealName= 'Pizza Rolls' MealDate= 'today'></MealCard>
-        <Text style={styles.Button}>
-        <TouchableOpacity
-        style={styles.buttonContainer}
-        onPress={() => navigation.push('AddDietScreen')}>
-        <Text style={styles.buttonText}>Add</Text>
-        </TouchableOpacity>
-        </Text>
-        </View>
+      <ScrollView style = {{backgroundColor: "rgba(46, 180, 153, 0.7)"}}>
+        <DismissKeyboard>
+          <View>
+            <DietDay date="Today" navigation={navigation}></DietDay>
+            <DietDay date="January 29th" navigation={navigation}></DietDay>
+          </View>
+        </DismissKeyboard>
+      </ScrollView>
     );
 }
 

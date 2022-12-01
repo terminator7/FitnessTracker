@@ -2,13 +2,12 @@ import react, { useState } from "react";
 import { StyleSheet, Text, View, Button, TextInput, Dimensions, TouchableWithoutFeedback, Pressable } from 'react-native';
 
 
-const WorkoutMiniCards = ({workoutName, workoutType, navigation}) => {
+const MealMiniCard = ({mealName, navigation}) => {
 
     return (
-      <Pressable onPress ={() => navigation.navigate('Main')}>
+      <Pressable onPress ={() => navigation.navigate('DietScreen')}>
         <View style={ styles.container}>
-          <Text style = { styles.workoutName}>{workoutName}</Text>
-          <Text style = { styles.workoutType}>{workoutType}</Text>
+          <Text style = { styles.workoutName}>{mealName}</Text>
        </View>
       </Pressable>
     );
@@ -45,4 +44,4 @@ const styles = StyleSheet.create({
     fontWeight: '500'
   }
   });
-export default WorkoutMiniCards;
+export default MealMiniCard;

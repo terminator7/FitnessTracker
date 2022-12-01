@@ -6,7 +6,15 @@ const AppHeaderStyle = StyleSheet.create({
         padding: 5,
         height: 80,
         alignContent: "flex-end",
-        backgroundColor: "#FE7422"
+        backgroundColor: "#FE7422",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 10,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+        elevation: 15,
     },
     title: {
         color: "#fff",

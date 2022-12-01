@@ -1,48 +1,54 @@
 import react, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, Button, ButtonStyle, ScrollView, TouchableOpacity, Pressable } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ButtonStyle, ScrollView, TouchableOpacity, Pressable, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import WorkoutCard from "../components/WorkoutCard";
 import WorkoutDay from "../components/WorkoutDay";
 import WorkoutMiniCards from "../components/WorkoutMiniCards";
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import AddWorkout from "../components/AddWorkout";
 
-const AddButton = ({icon, onPress}) => {
-    return(
-        <TouchableOpacity style = {styles.addButton} onPress = {onPress}>
-            <View style = {{alignItems: 'center'}}>{icon}</View>
-        </TouchableOpacity>
-    )
-}
+const DismissKeyboard = ({ children}) => (
+  <TouchableWithoutFeedback onPress ={() => Keyboard.dismiss()}>
+      {children}
+  </TouchableWithoutFeedback>
+);
 
 const AddWorkoutPage = ({navigation}) => {
-    const [isSetFocused, setSetFocus] = useState(false)
-    const [isRepFocused, setRepFocus] = useState(false)
-    const [isCaloriesFocused, setCaloriesFocus] = useState(false)
+    const [isWorkoutNameFocused, setWorkoutNameFocused] = useState(false)
+    const [isWorkoutTypeFocused, setWorkoutTypeFocused] = useState(false)
+
+    const setInputFocus = (name, type) => {
+      setWorkoutNameFocused(name)
+      setWorkoutTypeFocused(type)
+    }
     return(
-        <View>
-            <View style ={ styles.cardContent}>
-                <View style = {styles.inputField}>
-                    <Text style = { styles.setsTitle}>Workout Name: </Text>         
-                    <TextInput style = {[styles.input, {borderBottomColor: isSetFocused?'orange':'black'}]} onFocus= {() => setSetFocus (true)}></TextInput>
-                </View>
-                <View style = {styles.inputField}>
-                    <Text style = { styles.repsTitle}>Workout Type: </Text>         
-                    <TextInput style = {[styles.input, {borderBottomColor: isRepFocused?'orange':'black'}]} onFocus= {() => setRepFocus (true)}></TextInput>         
-                </View>
-                <View style = {styles.subContainer}>
-                    <Pressable style = {styles.addButton} onPress ={() => navigation.navigate('Workout List')}><Text style = {{color: 'white', fontSize: 15}}>Finish</Text></Pressable>
-                </View>
+      <DismissKeyboard>
+        <View style = {styles.container}>
+          <View style ={ styles.cardContent}>
+            <View style = {styles.inputField}>
+              <Text style = { styles.workoutName}>Workout Name: </Text>         
+              <TextInput style = {[styles.input, {borderBottomColor: isWorkoutNameFocused?'orange':'black'}]} onFocus= {() => setInputFocus(1,0)}></TextInput>
+            </View>
+            <View style = {styles.inputField}>
+              <Text style = { styles.workoutType}>Workout Type: </Text>         
+              <TextInput style = {[styles.input, {borderBottomColor: isWorkoutTypeFocused?'orange':'black'}]} onFocus= {() => setInputFocus(0,1)}></TextInput>         
+            </View>
+            <View style = {styles.subContainer}>
+              <Pressable style = {styles.addButton} onPress ={() => navigation.navigate('Workout List')}><Text style = {{color: 'white', fontSize: 15, fontWeight: "bold"}}>Finish</Text></Pressable>
+            </View>
+          </View>
         </View>
-      </View>
+      </DismissKeyboard>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        borderWidth: 3,
-        borderRadius: 15,
         width: '100%',
-        marginBottom: 20
+        backgroundColor: "rgba(46, 180, 153, 0.7)",
+        height: "100%",
+        alignContent: "center",
+        justifyContent: "center",
+        padding: 25
     },
     title: {
       fontWeight: 'bold'
@@ -55,42 +61,50 @@ const styles = StyleSheet.create({
       alignItems: 'center'
     },
     workoutName: {
-      fontWeight: 'bold',
-      fontSize: 20,
-      color: 'white',
-      marginBottom: 5
+      fontWeight: '500',
+      color: 'black',
     },
     workoutType: {
-      fontStyle: 'italic',
-      color: '#FCB419',
+      color: 'black',
       fontWeight: '500'
     },
     cardContent: {
-      padding: 10
+      padding: 10,
+      backgroundColor: "white",
+      borderRadius: 4,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 7,
+      },
+      shadowOpacity: 0.43,
+      shadowRadius: 9.51,
+      elevation: 15,
     },
     input:{
       borderBottomWidth: 1.25,
-      width: 100
+      width: 200
     },
     inputField: {
       flexDirection: 'row', //fix alignment
       alignItems: 'flex-end',
       alignContent: 'flex-end',
-      padding: 5,
+      padding: 10,
       justifyContent: 'space-between',
     },
     addButton: {
         backgroundColor: '#FE7422',
         borderRadius: '100%',
         padding: 20,
-        flex: 0,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        fontWeight: "bold"
     },
     subContainer: {
         width: '100%',
         alignContent: 'center',
-        marginTop: 20
+        marginTop: 20,
+        alignItems: "center"
     },
 });
 export default AddWorkoutPage

@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        marginHorizontal: 16,
+        padding: 50,
+        backgroundColor: "rgba(46, 180, 153, 0.7)"
     },
     fittotext: {
         flexDirection: 'row',
@@ -28,11 +29,20 @@ const styles = StyleSheet.create({
     },
     appButtonContainer: {
         elevation: 8,
-        backgroundColor: "#f27329",
-        borderRadius: 10,
+        backgroundColor: "white",
+        borderRadius: 4,
+        marginHorizontal: 25,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 7,
+        },
+        shadowOpacity: 0.43,
+        shadowRadius: 9.51,
+        elevation: 15,
+      },
+      appButtonContextContainer: {
         padding: 12,
-        margin: 7,
-        
       },
       input: {
         height: 40,
@@ -95,7 +105,10 @@ const WeightTrackerScreen = (props) => {
         <DismissKeyboard>
             <SafeAreaView style={styles.container}>
                 <View style={styles.appButtonContainer}>
-                    <Text style={{fontSize: 20, color: 'white', justifyContent: "center", paddingLeft:"34%"}}>Enter Weight</Text> 
+                    <View style={{alignItems: "center", backgroundColor: "#FE7422", borderTopRightRadius: 4, borderTopLeftRadius: 4, padding: 10}}>
+                        <Text style={{fontSize: 20, color: 'white', fontWeight: "bold"}}>Enter Weight</Text> 
+                    </View>
+                    <View style={styles.appButtonContextContainer}>
                         <TextInput
                             keyboardType="numeric"
                             style={styles.input}
@@ -117,17 +130,16 @@ const WeightTrackerScreen = (props) => {
                             style={{
                                 height: 40,
                                 width: '100%',
-                                backgroundColor: 'white',
+                                backgroundColor: '#FE7422',
                                 marginVertical: 10,
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                borderColor: 'black',
-                                borderWidth: 1,
                                 borderRadius: 7,
                             }}
                         >
-                            <Text style={{fontWeight: 'bold', fontSize: 18}}>Submit</Text>
+                            <Text style={{fontWeight: 'bold', fontSize: 18, color: "white"}}>Submit</Text>
                         </TouchableOpacity>
+                    </View>
                 </View>
             </SafeAreaView>
         </DismissKeyboard>
