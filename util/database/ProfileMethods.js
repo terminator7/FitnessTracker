@@ -32,10 +32,20 @@ const getProfileDetails = (profileID, callback) => {
     height: float
     units: string */
 //Post: Will return true or false depending if the profile was added into the database or not
+
+/* addProfile({}, (object) => {
+    if (!object) {
+
+    }
+    else {
+        global.profile["profileID"] = object[1]
+    }
+}) */
 const addProfile = ({gender, firstName, lastName, theme = 0, birthday, height, initialWeight, activityLevel, weightUnits, heightUnits}, callback) => {
     //let transactionCompleted = false
+    profileId = generateID("PROFILE")
     db.transaction(tx => {
-       tx.executeSql('INSERT INTO Profiles VALUES (?,?,?,?,?,?,?,?,?,?,?)', [generateID("PROFILE"), gender, firstName, lastName, birthday, height, initialWeight, activityLevel, theme, weightUnits, heightUnits], () => callback(true), () => callback(false))
+       tx.executeSql('INSERT INTO Profiles VALUES (?,?,?,?,?,?,?,?,?,?,?)', [profileId, gender, firstName, lastName, birthday, height, initialWeight, activityLevel, theme, weightUnits, heightUnits], () => callback([true, profileId]), () => callback(false))
     })
 }
 //Description: Will Remove profile from database

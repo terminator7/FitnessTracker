@@ -17,5 +17,6 @@ module.exports = {
         initalWeight: null,
         height: null,
         units: null,
+        profileID: null,
     }
 }
