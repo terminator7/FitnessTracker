@@ -1,7 +1,7 @@
-import React from 'react';
+import {React, useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import global from '../util/data/global';
 //Icon imports
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -32,6 +32,12 @@ import AppHeader from '../components/AppHeader'
 import DietStackNavigator from './DietPageNavigator';
 
 const HomeScreen = ({navigation}) => {
+
+    //Just for testing to see if this works :)
+    useEffect(() => {
+        console.log(global.profile)
+    }, [])
+
     return (
         <Tab.Navigator
         initialRouteName={progressLabel}
