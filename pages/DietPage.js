@@ -1,32 +1,38 @@
 //General imports
 import React from "react";
-import { Text, View, StyleSheet, Button, Alert, TextInput } from 'react-native'
+import { Text, View, StyleSheet, Button, Alert, TextInput, TouchableOpacity, TouchableWithoutFeedback, ScrollView, Keyboard } from 'react-native'
+import AddMealButton from "../components/AddMealButton";
+import DietDay from "../components/DietDay"
+import { NavigationContainer } from '@react-navigation/native';
 
 //Component Imports
 // *Insert Page imports here*
+import MealCard from '../components/MealCard'
 
-const DietScreen = (props) => {
+
+const DismissKeyboard = ({ children}) => (
+  <TouchableWithoutFeedback onPress ={() => Keyboard.dismiss()}>
+      {children}
+  </TouchableWithoutFeedback>
+);
+
+const DietScreen = ({navigation}) => {
     return (
-        <View style={styles.container}>
-        <Text style={styles.Title}>Diet Page</Text>
-        <Text style={styles.Padding}></Text>
-        <Text style={styles.Border}>
-        <Text style={styles.MealTitle}>Meal Name:____________{"\n"}Date:____________{"\n"}</Text>
-        <Text style={styles.MealInfo}>{"\n"}Fat:_____________{"\n"}Protein:____________{"\n"}Carbs:_____________{"\n"}Total Calories:__________</Text></Text>
-        <Text style={styles.Button}>
-        <Button
-        title="Add Meal"
-        color="#FE7422"
-        onPress={() => Alert.alert('Action for this button is in progress')}
-      />
-        </Text>
-        </View>
+      <ScrollView style = {{backgroundColor: "rgba(46, 180, 153, 0.7)"}}>
+        <DismissKeyboard>
+          <View>
+            <DietDay date="Today" navigation={navigation}></DietDay>
+            <DietDay date="January 29th" navigation={navigation}></DietDay>
+          </View>
+        </DismissKeyboard>
+      </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
       marginTop: 10,
+      padding: 30
     },
     Title: {
       color: 'black',
@@ -38,9 +44,6 @@ const styles = StyleSheet.create({
       marginHorizontal: 50,    
     },
     Border: {
-      textAlign: 'center',
-      borderWidth: 4,
-      borderRadius: 20,
       marginHorizontal: 55,
       marginVertical: 0,
     },
@@ -58,6 +61,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginVertical: 10,
         marginHorizontal: "37%",
+    },
+    buttonText: {
+      fontSize: 20,
+      color: '#000000'
     },
   });
 

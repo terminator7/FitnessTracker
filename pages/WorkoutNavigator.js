@@ -12,8 +12,8 @@ const WorkoutNavigator = () =>{
       <NavigationContainer independent={true}>
         <Stack.Navigator initialRouteName="Main">
           <Stack.Screen name="Main" component={WorkoutScreen} options = {{headerShown: false}} />
-          <Stack.Screen name="Workout List" component={WorkoutList} />
-          <Stack.Screen name="Add Workout" component={AddWorkoutPage} />
+          <Stack.Screen name="Workout List" component={WorkoutList} options = {{headerShown: false}} />
+          <Stack.Screen name="Add Workout" component={AddWorkoutPage} options = {{headerShown: false}}/>
         </Stack.Navigator>
       </NavigationContainer>
     );

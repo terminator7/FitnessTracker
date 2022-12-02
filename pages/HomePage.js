@@ -29,6 +29,7 @@ const FOCUSED_ICON_COLOR = "#FE7422"
 
 //Other Imports
 import AppHeader from '../components/AppHeader'
+import DietStackNavigator from './DietPageNavigator';
 
 const HomeScreen = ({navigation}) => {
 
@@ -62,7 +63,7 @@ const HomeScreen = ({navigation}) => {
         })}
         >
             <Tab.Screen name={workoutLabel} component={WorkoutNavigator} />
-            <Tab.Screen name={dietLabel} component={DietScreen} />
+            <Tab.Screen name={dietLabel} component={DietStackNavigator} />
             <Tab.Screen name={progressLabel} component={ProgressScreen} />
             <Tab.Screen name={waterTrackerLabel} component={WaterTrackerScreen} />
             <Tab.Screen name={weightTrackerLabel} component={WeightTrackerScreen} />

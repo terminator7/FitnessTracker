@@ -1,5 +1,5 @@
 import react, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, Button, ButtonStyle, ScrollView, TouchableOpacity, Pressable, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ButtonStyle, ScrollView, TouchableOpacity, Pressable, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import WorkoutCard from "../components/WorkoutCard";
 import WorkoutDay from "../components/WorkoutDay";
 import WorkoutMiniCards from "../components/WorkoutMiniCards";
@@ -12,7 +12,7 @@ const DismissKeyboard = ({ children}) => (
   </TouchableWithoutFeedback>
 );
 
-const AddWorkoutPage = ({navigation}) => {
+const AddMealPage = ({navigation}) => {
     const [isWorkoutNameFocused, setWorkoutNameFocused] = useState(false)
     const [isWorkoutTypeFocused, setWorkoutTypeFocused] = useState(false)
 
@@ -25,18 +25,14 @@ const AddWorkoutPage = ({navigation}) => {
         <View style = {styles.container}>
           <View style ={ styles.cardContent}>
             <View style = {styles.inputField}>
-              <Text style = { styles.workoutName}>Workout Name: </Text>         
+              <Text style = { styles.workoutName}>Meal Name: </Text>         
               <TextInput style = {[styles.input, {borderBottomColor: isWorkoutNameFocused?'orange':'black'}]} onFocus= {() => setInputFocus(1,0)}></TextInput>
             </View>
-            <View style = {styles.inputField}>
-              <Text style = { styles.workoutType}>Workout Type: </Text>         
-              <TextInput style = {[styles.input, {borderBottomColor: isWorkoutTypeFocused?'orange':'black'}]} onFocus= {() => setInputFocus(0,1)}></TextInput>         
-            </View>
             <View style = {styles.subContainer}>
-              <Pressable style = {styles.addButton} onPress ={() => navigation.navigate('Workout List')}><Text style = {{color: 'white', fontSize: 15, fontWeight: "bold"}}>Finish</Text></Pressable>
+              <Pressable style = {styles.addButton} onPress ={() => navigation.navigate('MealList')}><Text style = {{color: 'white', fontSize: 15, fontWeight: "bold"}}>Finish</Text></Pressable>
             </View>
-          </View>
         </View>
+      </View>
       </DismissKeyboard>
     );
 }
@@ -83,7 +79,7 @@ const styles = StyleSheet.create({
     },
     input:{
       borderBottomWidth: 1.25,
-      width: 200
+      width: 225
     },
     inputField: {
       flexDirection: 'row', //fix alignment
@@ -107,4 +103,4 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
 });
-export default AddWorkoutPage
+export default AddMealPage
