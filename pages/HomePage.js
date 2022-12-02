@@ -1,7 +1,7 @@
-import React from 'react';
+import {React, useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import global from '../util/data/global';
 //Icon imports
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -31,6 +31,12 @@ const FOCUSED_ICON_COLOR = "#FE7422"
 import AppHeader from '../components/AppHeader'
 
 const HomeScreen = ({navigation}) => {
+
+    //Just for testing to see if this works :)
+    useEffect(() => {
+        console.log(global.profile)
+    }, [])
+
     return (
         <Tab.Navigator
         initialRouteName={progressLabel}
