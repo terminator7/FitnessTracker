@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FlashMessage from 'react-native-flash-message'
-
+import {getDate} from './util/dateMethods/dateMethods'
 
 import { initalizeDatabase, refreshDataBase } from './util/database/DatabaseMethods';
 import { addProfile, getProfileList } from './util/database/ProfileMethods';
@@ -45,12 +45,12 @@ const App = () => {
               if(result) {
                 let testMealID = result[0]["id"]
                 console.log("Meal ID: " + testMealID)
-                addMealToProgress({profileID: testProfileID, mealID: testMealID, date:"Date('now')", carbs:23, fats:12, protein:40, caloriesAte:400}, (progressresult) => console.log("Meal Progress for " + testMealID + " Added: " +  progressresult))
+                addMealToProgress({profileID: testProfileID, mealID: testMealID, date:"DATE('now', 'localtime')", carbs:23, fats:12, protein:40, caloriesAte:400}, (progressresult) => console.log("Meal Progress for " + testMealID + " Added: " +  progressresult))
               }
             })
           }
         })
-        addWater({profileID:testProfileID, amountOfWater:0.5, units:"gallons", date:"DATETIME('now', localtime)"}, (result) => console.log("Water Added: " + result))
+        addWater({profileID:testProfileID, amountOfWater:0.5, units:"gallons", date:"DATETIME('now', 'localtime')"}, (result) => console.log("Water Added: " + result))
         addWorkout({profileID:testProfileID, workoutName:"Chest Press", workoutType:"Chest"}, (result) => {
           console.log("Workout Added: " + result)
           if(result) {
@@ -58,7 +58,7 @@ const App = () => {
               if(result) {
                 testWorkoutID = result[0]["id"]
                 console.log("WorkoutID: " + testWorkoutID)
-                addWorkoutToProgress({profileID: testProfileID, workoutID: testWorkoutID, date:"Date('now')", sets:3, reps:12, caloriesBurned:200}, (progressresult) => console.log("Workout " + testWorkoutID+ " Added: " +  progressresult))
+                addWorkoutToProgress({profileID: testProfileID, workoutID: testWorkoutID, date:getDate(), sets:3, reps:12, caloriesBurned:200}, (progressresult) => console.log("Workout " + testWorkoutID+ " Added: " +  progressresult))
               }
             })
           }

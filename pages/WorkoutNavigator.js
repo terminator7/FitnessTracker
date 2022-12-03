@@ -5,9 +5,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import WorkoutList from './WorkoutList';
 import WorkoutScreen from './WorkoutPage';
 import AddWorkoutPage from './AddWorkoutPage'; 
+import {deleteWorkout, addWorkout, getWorkoutList, getWorkoutProgress, addWorkoutToProgress} from '../util/database/WorkoutMethods'
 const Stack = createNativeStackNavigator();
 
 const WorkoutNavigator = () =>{
+
+
     return (
       <NavigationContainer independent={true}>
         <Stack.Navigator initialRouteName="Main">

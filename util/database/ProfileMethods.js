@@ -33,10 +33,11 @@ const getProfileDetails = (profileID, callback) => {
     units: string */
 //Post: Will return true or false depending if the profile was added into the database or not
 
-/* addProfile({}, (object) => {
+/* addProfile({}, (bullshit) => {
     if (!object) {
 
     }
+    [{name, type, },{}]
     else {
         global.profile["profileID"] = object[1]
     }
