@@ -1,6 +1,7 @@
 import react, { useState } from "react";
 import { StyleSheet, Text, View, Button, TextInput, Dimensions, TouchableOpacity } from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo'
+import {deleteWorkout, addWorkout, getWorkoutList, getWorkoutProgress, addWorkoutToProgress} from '../util/database/WorkoutMethods'
 
 const UpdateButton = ({text, onPress}) => {
   return(

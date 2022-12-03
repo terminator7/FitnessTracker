@@ -1,14 +1,54 @@
 import react, { useState } from "react";
-import { StyleSheet, Text, View, Button, TextInput, Dimensions, TouchableWithoutFeedback, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Dimensions, TouchableWithoutFeedback, Pressable, TouchableOpacity } from 'react-native';
+import EntypoIcon from 'react-native-vector-icons/Entypo'
+import {deleteWorkout, addWorkout, getWorkoutList, getWorkoutProgress, addWorkoutToProgress} from '../util/database/WorkoutMethods'
+import { getDate } from "../util/dateMethods/dateMethods";
 
 
-const WorkoutMiniCards = ({workoutName, workoutType, navigation}) => {
+const DeleteButton = ({icon, onPress}) => {
+  return(
+      <TouchableOpacity style = {styles.addButton} onPress = {onPress}>
+          <View style = {{marginRight: 3}}>{icon}</View>
+      </TouchableOpacity>
+  )
+}
+
+const WorkoutMiniCards = ({workoutName, workoutType, navigation, workoutId, updateList}) => {
+
+  const deleteAndUpdate = () => {
+    console.log(workoutId)
+    deleteWorkout(workoutId, (didHappen) => {
+      if(didHappen) {
+        updateList()
+      }
+      else {
+        console.log("Did not delete")
+      }
+    })
+  }
+
+
+   const createWorkoutProgress = (pID) => {
+        addWorkoutToProgress({profileID: pID, workoutID: workoutId, date: getDate(), sets: 0, reps: 0, caloriesBurned: 0}, (result) => {
+          console.log(pID + " " + workoutId)
+          if(result === false) {
+            console.log("Error in adding")
+          } else {
+            navigation.navigate("Main")
+          }
+        })
+   }
 
     return (
-      <Pressable onPress ={() => navigation.navigate('Main')}>
+      <Pressable onPress ={() => createWorkoutProgress("PROFILE-TQTN")}>
         <View style={ styles.container}>
-          <Text style = { styles.workoutName}>{workoutName}</Text>
-          <Text style = { styles.workoutType}>{workoutType}</Text>
+          <View style={styles.leftMost}>
+            <Text style = { styles.workoutName}>{workoutName}</Text>
+            <Text style = { styles.workoutType}>{workoutType}</Text>
+          </View>
+          <View style= {styles.rightMost}>
+            <DeleteButton icon={<EntypoIcon name="trash" size='24' color='white'/>} onPress={() => deleteAndUpdate()}></DeleteButton>
+          </View>
        </View>
       </Pressable>
     );
@@ -28,7 +68,9 @@ const styles = StyleSheet.create({
     elevation: 15,
     backgroundColor: "#FE7422",
     padding: 10,
-    borderRadius: 4
+    borderRadius: 4,
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   title: {
     fontWeight: 'bold'
@@ -43,6 +85,9 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     color: 'white',
     fontWeight: '500'
+  },
+  rightMost: {
+    justifyContent : "center"
   }
   });
 export default WorkoutMiniCards;

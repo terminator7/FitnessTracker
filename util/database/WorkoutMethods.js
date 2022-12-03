@@ -6,6 +6,20 @@ const db = SQLite.openDatabase('appdatabase.db')
 //Description: Function will return a list of workouts based of the user profile that is selected
 //Pre: Accepts profileID as string
 //Post Will Return undefined if there is an error, and a list of workouts if there is not an error
+
+/* getWorkoutList("", (result) => {
+    if(result === undefined) {
+
+    } else if(result === []) {
+
+    }
+    else {
+        for(i, result.length, i++) {
+            <WorkoutMiniCard Name=result[i]["Name"] Type=result[i]["Type"]>
+        }
+    }
+}) */
+
 const getWorkoutList = (profileID, callback) => {
     db.transaction(tx => {
         tx.executeSql("SELECT id,Name, Type FROM Workouts WHERE ProfileID = ?", [profileID], (txObj, resultSet) => callback(resultSet.rows._array), () => callback(undefined))
@@ -25,7 +39,7 @@ const addWorkout = ({profileID,workoutName, workoutType}, callback) => {
 //Post: Will return True or False depending the transcation was completed or not
 const deleteWorkout = (workoutID, callback) => {
     db.transaction(tx =>{
-        tx.executeSql("DELETE FROM Workouts WHERE id = ?", [workoutID], () => callback(true), () => callback(false))
+        tx.executeSql("DELETE FROM Workouts WHERE id = ?", [workoutID], () => callback(true), (results,error) => console.log(error))
     })
 }
 
@@ -40,7 +54,7 @@ const getWorkoutProgress = (profileID, callback) => {
 
 const addWorkoutToProgress = ({profileID, workoutID, date, sets, reps, caloriesBurned}, callback) => {
     db.transaction(tx => {
-        tx.executeSql("INSERT INTO ProfileWorkouts VALUES (?,?,?,?,?,?)", [profileID, workoutID, reps, sets, date, caloriesBurned], () => callback(true), () => callback(false))
+        tx.executeSql("INSERT INTO ProfileWorkouts VALUES (?,?,?,?,?,?)", [profileID, workoutID, reps, sets, date, caloriesBurned], () => callback(true), (error) => callback(false))
     })
 }
 
