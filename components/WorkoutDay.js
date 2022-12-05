@@ -11,7 +11,7 @@ const AddButton = ({icon, onPress}) => {
     )
 }
 
-const WorkoutDay = ({date = "Today", navigation}) => {
+const WorkoutDay = ({date = "Today", navigation, workouts, updateList}) => {
     return(
         <View style = {styles.container}>
             <View style = {styles.dateHeader}>
@@ -19,8 +19,11 @@ const WorkoutDay = ({date = "Today", navigation}) => {
                     {date}
                 </Text>
             </View>
-            <WorkoutCard workoutName = 'Bench Press' workoutType='Chest'></WorkoutCard>
-            <WorkoutCard workoutName = 'Dumbell Row' workoutType='Back'></WorkoutCard>
+            {
+                workouts.map((element, index) => {
+                    return <WorkoutCard key={index} workoutName={element["Name"]} workoutType={element["Type"]} profileID={element["ProfileID"]} date={element["Date"]} workoutId={element["WorkoutID"]} updateList={updateList} currentSets={element["Sets"]} currentReps={element["Reps"]} currentCaloriesBurned={element["CaloriesBurned"]}></WorkoutCard>
+                })
+            }
             <AddButton icon = {<EntypoIcon name="plus" size='24' color='white'/>} onPress ={() => navigation.push('Workout List')}></AddButton>
         </View>
     )

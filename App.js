@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FlashMessage from 'react-native-flash-message'
-import {getDate} from './util/dateMethods/dateMethods'
+import {getDate, getDateAndTime} from './util/dateMethods/dateMethods'
 
 import { initalizeDatabase, refreshDataBase } from './util/database/DatabaseMethods';
 import { addProfile, getProfileList } from './util/database/ProfileMethods';
@@ -14,6 +14,8 @@ import ProfileSetupScreen from './pages/ProfileSetupPage';
 import HomeScreen from './pages/HomePage';
 import { addWorkout, getWorkoutList, addWorkoutToProgress } from './util/database/WorkoutMethods';
 import { addWeight } from './util/database/WeightTrackerMethods';
+
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 const Stack = createNativeStackNavigator();
 
@@ -58,7 +60,7 @@ const App = () => {
               if(result) {
                 testWorkoutID = result[0]["id"]
                 console.log("WorkoutID: " + testWorkoutID)
-                addWorkoutToProgress({profileID: testProfileID, workoutID: testWorkoutID, date:getDate(), sets:3, reps:12, caloriesBurned:200}, (progressresult) => console.log("Workout " + testWorkoutID+ " Added: " +  progressresult))
+                addWorkoutToProgress({profileID: testProfileID, workoutID: testWorkoutID, date:getDateAndTime(), sets:3, reps:12, caloriesBurned:200}, (progressresult) => console.log("Workout " + testWorkoutID+ " Added: " +  progressresult))
               }
             })
           }
@@ -69,14 +71,15 @@ const App = () => {
   }, [])
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='Onboarding' screenOptions={{ headerShown: false }}>
-        <Stack.Screen name='Onboarding' component={ OnboardingScreen }/>
-        <Stack.Screen name='Profile Setup' component={ ProfileSetupScreen }/>
-        <Stack.Screen name='Home' component={ HomeScreen }/>
-      </Stack.Navigator>
-    <FlashMessage position='top'/>
-    </NavigationContainer>
+    <RootSiblingParent>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='Onboarding' screenOptions={{ headerShown: false }}>
+          <Stack.Screen name='Onboarding' component={ OnboardingScreen }/>
+          <Stack.Screen name='Profile Setup' component={ ProfileSetupScreen }/>
+          <Stack.Screen name='Home' component={ HomeScreen }/>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </RootSiblingParent>
   );
 };
 

@@ -1,7 +1,7 @@
 import react, { useState } from "react";
 import { StyleSheet, Text, View, Button, TextInput, Dimensions, TouchableOpacity } from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo'
-import {deleteWorkout, addWorkout, getWorkoutList, getWorkoutProgress, addWorkoutToProgress} from '../util/database/WorkoutMethods'
+import {deleteWorkout, addWorkout, getWorkoutList, getWorkoutProgress, addWorkoutToProgress, deleteWorkoutProgress, updateWorkoutProgress} from '../util/database/WorkoutMethods'
 
 const UpdateButton = ({text, onPress}) => {
   return(
@@ -12,6 +12,7 @@ const UpdateButton = ({text, onPress}) => {
 }
 
 const DeleteButton = ({icon, onPress}) => {
+  
   return(
       <TouchableOpacity style = {styles.addButton} onPress = {onPress}>
           <View style = {{alignItems: 'center'}}>{icon}</View>
@@ -20,47 +21,73 @@ const DeleteButton = ({icon, onPress}) => {
 }
 
 
-const WorkoutCard = ({workoutName, workoutType, prevSets, prevReps, prevCalories}) => {
+const WorkoutCard = ({workoutName, workoutType, prevSets, prevReps, prevCalories, profileID, date, workoutId, updateList, currentSets, currentReps, currentCaloriesBurned}) => {
 
   const [isSetFocused, setSetFocus] = useState(false)
   const [isRepFocused, setRepFocus] = useState(false)
   const [isCaloriesFocused, setCaloriesFocus] = useState(false)
+
+  const [Sets, setSets] = useState(currentSets)
+  const [Reps, setReps] = useState(currentReps)
+  const [CaloriesBurned, setCaloriesBurned] = useState(currentCaloriesBurned)
 
   const setInputFocus = (set, rep, calories) => {
     setSetFocus(set)
     setRepFocus(rep)
     setCaloriesFocus(calories)
   }
-    return (
-      <View style={ styles.container}>
-          <View style = {styles.cardHeader}>
-            <View style= {styles.leftCardHeader}>
-              <Text style = { styles.workoutName}>{workoutName}</Text>
-              <Text style = { styles.workoutType}>{workoutType}</Text>
-            </View>
-            <View style= {styles.rightCardHeader}>
-              <DeleteButton icon={<EntypoIcon name="trash" size='24' color='white'/>}></DeleteButton>
-            </View>
+  const deleteAndUpdate = () => {
+    deleteWorkoutProgress({profileID: profileID, workoutID: workoutId, date: date}, (didHappen) => {
+      if(didHappen) {
+        updateList()
+        console.log(workoutId)
+      }
+      else {
+        console.log("Did not delete")
+      }
+    })
+  }
+
+  const updateWorkoutProgressCard = () => {
+    updateWorkoutProgress({profileID: profileID, workoutID: workoutId, date: date, sets: Sets, reps: Reps, caloriesBurned: CaloriesBurned}, (didHappen) => {
+      if (didHappen) {
+        console.log("Updated Workout")
+      } else {
+        console.log("Did not update Workout Progress")
+      }
+    })
+  }
+
+  return (
+    <View style={ styles.container}>
+        <View style = {styles.cardHeader}>
+          <View style= {styles.leftCardHeader}>
+            <Text style = { styles.workoutName}>{workoutName}</Text>
+            <Text style = { styles.workoutType}>{workoutType}</Text>
           </View>
-        <View style ={ styles.cardContent}>
-          <View style = {styles.inputField}>
-            <Text style = { styles.setsTitle}>Sets: </Text>         
-            <TextInput style = {[styles.input, {borderBottomColor: isSetFocused?'orange':'black'}]} placeholder = {prevSets} keyboardType = "numeric" onFocus= {() => setInputFocus(1, 0, 0)}></TextInput>
-          </View>
-          <View style = {styles.inputField}>
-            <Text style = { styles.repsTitle}>Reps: </Text>         
-            <TextInput style = {[styles.input, {borderBottomColor: isRepFocused?'orange':'black'}]} placeholder = {prevReps} keyboardType = "numeric" onFocus= {() => setInputFocus(0, 1, 0)}></TextInput>         
-          </View>
-          <View style = {styles.inputField}>
-            <Text style = { styles.caloriesTitle}>Calories Burnt: </Text>
-            <TextInput style = {[styles.input, {borderBottomColor: isCaloriesFocused?'orange':'black'}]} placeholder = {prevReps} keyboardType = "numeric" onFocus= {() => setInputFocus(0, 0, 1)}></TextInput>         
-          </View>
-          <View style={{paddingTop: 25, paddingHorizontal: 60, paddingBottom: 10}}>
-            <UpdateButton text="Update"></UpdateButton>
+          <View style= {styles.rightCardHeader}>
+            <DeleteButton icon={<EntypoIcon name="trash" size='24' color='white'/>} onPress = {() => deleteAndUpdate()}></DeleteButton>
           </View>
         </View>
-      </View> 
-    );
+      <View style ={ styles.cardContent}>
+        <View style = {styles.inputField}>
+          <Text style = { styles.setsTitle}>Sets: </Text>         
+          <TextInput style = {[styles.input, {borderBottomColor: isSetFocused?'orange':'black'}]} placeholder = {prevSets} keyboardType = "numeric" onFocus= {() => setInputFocus(1, 0, 0)} onChangeText={(text) => setSets(text)}>{currentSets}</TextInput>
+        </View>
+        <View style = {styles.inputField}>
+          <Text style = { styles.repsTitle}>Reps: </Text>         
+          <TextInput style = {[styles.input, {borderBottomColor: isRepFocused?'orange':'black'}]} placeholder = {prevReps} keyboardType = "numeric" onFocus= {() => setInputFocus(0, 1, 0)} onChangeText={(text) => setReps(text)}>{currentReps}</TextInput>         
+        </View>
+        <View style = {styles.inputField}>
+          <Text style = { styles.caloriesTitle}>Calories Burnt: </Text>
+          <TextInput style = {[styles.input, {borderBottomColor: isCaloriesFocused?'orange':'black'}]} placeholder = {prevReps} keyboardType = "numeric" onFocus= {() => setInputFocus(0, 0, 1)} onChangeText={(text) => setCaloriesBurned(text)}>{currentCaloriesBurned}</TextInput>         
+        </View>
+        <View style={{paddingTop: 25, paddingHorizontal: 60, paddingBottom: 10}}>
+          <UpdateButton text="Update" onPress = {() => updateWorkoutProgressCard()}></UpdateButton>
+        </View>
+      </View>
+    </View> 
+  );
 }
 
 const styles = StyleSheet.create({
@@ -107,7 +134,8 @@ const styles = StyleSheet.create({
   },
   input:{
     borderBottomWidth: 1.25,
-    width: 100
+    width: 100,
+    textAlign: "right"
   },
   inputField: {
     flexDirection: 'row', //fix alignment

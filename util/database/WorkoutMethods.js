@@ -48,7 +48,7 @@ const deleteWorkout = (workoutID, callback) => {
 //Post: Will return an undefined variable if something went wrong, otherwise will return list of progress.
 const getWorkoutProgress = (profileID, callback) => {
     db.transaction(tx => {
-        tx.executeSql("Select ProfileWorkouts.ProfileID,Workouts.Name,Workouts.Type,ProfileWorkouts.Reps,ProfileWorkouts.Sets,ProfileWorkouts.Date,ProfileWorkouts.CaloriesBurned FROM Workouts INNER JOIN ProfileWorkouts ON Workouts.id=ProfileWorkouts.WorkoutID Where ProfileWorkouts.ProfileID = ?", [profileID], (txObj, resultSet) => callback(resultSet.rows._array), () => callback(undefined))
+        tx.executeSql("Select ProfileWorkouts.WorkoutID,ProfileWorkouts.ProfileID,Workouts.Name,Workouts.Type,ProfileWorkouts.Reps,ProfileWorkouts.Sets,ProfileWorkouts.Date,ProfileWorkouts.CaloriesBurned FROM Workouts INNER JOIN ProfileWorkouts ON Workouts.id=ProfileWorkouts.WorkoutID Where ProfileWorkouts.ProfileID = ?", [profileID], (txObj, resultSet) => callback(resultSet.rows._array), () => callback(undefined))
     })
 }
 
@@ -58,4 +58,16 @@ const addWorkoutToProgress = ({profileID, workoutID, date, sets, reps, caloriesB
     })
 }
 
-export {deleteWorkout, addWorkout, getWorkoutList, getWorkoutProgress, addWorkoutToProgress}
+const updateWorkoutProgress = ({profileID, workoutID, date, sets, reps, caloriesBurned}, callback) => {
+    db.transaction(tx => {
+        tx.executeSql("UPDATE ProfileWorkouts SET Sets = ?, Reps = ?, CaloriesBurned = ? WHERE ProfileID = ? AND WorkoutID = ? AND Date = ?",[sets, reps, caloriesBurned, profileID, workoutID, date], () => callback(true), () => callback(false))
+    })
+}
+
+const deleteWorkoutProgress = ({profileID, workoutID, date}, callback) => {
+    db.transaction(tx => {
+        tx.executeSql("DELETE FROM ProfileWorkouts WHERE ProfileID = ? AND WorkoutID = ? AND Date = ?",[profileID, workoutID, date], () => callback(true), () => callback(false))
+    })
+}
+
+export {deleteWorkout, addWorkout, getWorkoutList, getWorkoutProgress, addWorkoutToProgress, deleteWorkoutProgress, updateWorkoutProgress}

@@ -6,6 +6,7 @@ import WorkoutDay from "../components/WorkoutDay";
 import WorkoutMiniCards from "../components/WorkoutMiniCards";
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import {deleteWorkout, addWorkout, getWorkoutList, getWorkoutProgress, addWorkoutToProgress} from '../util/database/WorkoutMethods'
+import Toast from 'react-native-root-toast';
 
 const AddButton = ({icon, onPress}) => {
     return(
@@ -15,14 +16,21 @@ const AddButton = ({icon, onPress}) => {
     )
 }
 
-
+const MyToast = () => {
+    return Toast.show("Hello", {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+      })
+}
 
 const WorkoutList = ({navigation}) => {
 
     const [workoutList, setWorkoutList] = useState([])
 
     const isFocused = useIsFocused()
-    
 
     const generateWorkoutList = () => {
         getWorkoutList("PROFILE-TQTN", (result) => {
@@ -50,17 +58,24 @@ const WorkoutList = ({navigation}) => {
         }
     }, [isFocused])
 
+
     return(
         <ScrollView style = {{backgroundColor: "rgba(46, 180, 153, 0.7)"}}>
             <View style = {styles.container}>
                 {
-                    workoutList.map(element => {
-                        console.log(element)
-                        return <WorkoutMiniCards navigation={navigation} workoutName={element["Name"]} workoutType={element["Type"]} updateList={generateWorkoutList} workoutId={element["id"]}></WorkoutMiniCards>
+                    workoutList.map((element, index) => {
+                        return <WorkoutMiniCards key={index} navigation={navigation} workoutName={element["Name"]} workoutType={element["Type"]} updateList={generateWorkoutList} workoutId={element["id"]}></WorkoutMiniCards>
                     })
                 }
-                {/* <WorkoutMiniCards navigation = {navigation} workoutName= {getWorkoutList={'PROFILE-LEKL'}} workoutType = 'Chest'></WorkoutMiniCards>
-                <WorkoutMiniCards navigation = {navigation} workoutName= 'Dumbell Press' workoutType = 'Chest'></WorkoutMiniCards> */}
+                {
+                    Toast.show("Hello", {
+                        duration: Toast.durations.SHORT,
+                        position: Toast.positions.BOTTOM,
+                        shadow: true,
+                        animation: true,
+                        hideOnPress: true,
+                      })
+                }
             </View>
             <View style = {styles.buttonContainer}>
                 <AddButton icon = {<EntypoIcon name="plus" size='24' color='white'/>} onPress ={() => navigation.push('Add Workout')}></AddButton>
