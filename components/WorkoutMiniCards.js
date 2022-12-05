@@ -13,16 +13,17 @@ const DeleteButton = ({icon, onPress}) => {
   )
 }
 
-const WorkoutMiniCards = ({workoutName, workoutType, navigation, workoutId, updateList}) => {
+const WorkoutMiniCards = ({workoutName, workoutType, navigation, workoutId, updateList, toastError, toastSucess}) => {
 
   const deleteAndUpdate = () => {
     console.log(workoutId)
     deleteWorkout(workoutId, (didHappen) => {
       if(didHappen) {
         updateList()
+        toastSucess()
       }
       else {
-        console.log("Did not delete")
+        toastError()
       }
     })
   }
