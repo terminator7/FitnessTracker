@@ -25,7 +25,7 @@ const WorkoutScreen = ({navigation}) => {
 
     const generateWorkoutProgess = () => {
         let DateMap = new Map()
-        getWorkoutProgress("PROFILE-TQTN", (result) => {
+        getWorkoutProgress("PROFILE-XOSS", (result) => {
             if(result === undefined) {
                 console.log("There was an error reaching the database")
             }

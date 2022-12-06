@@ -39,7 +39,7 @@ const addWorkout = ({profileID,workoutName, workoutType}, callback) => {
 //Post: Will return True or False depending the transcation was completed or not
 const deleteWorkout = (workoutID, callback) => {
     db.transaction(tx =>{
-        tx.executeSql("DELETE FROM Workouts WHERE id = ?", [workoutID], () => callback(true), (results,error) => console.log(error))
+        tx.executeSql("DELETE FROM Workouts WHERE id = ?", [workoutID], () => callback(true), () => callback(false))
     })
 }
 

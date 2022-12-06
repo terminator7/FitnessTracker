@@ -13,17 +13,17 @@ const DeleteButton = ({icon, onPress}) => {
   )
 }
 
-const WorkoutMiniCards = ({workoutName, workoutType, navigation, workoutId, updateList, toastError, toastSucess}) => {
+const WorkoutMiniCards = ({workoutName, workoutType, navigation, workoutId, updateList, showToast}) => {
 
   const deleteAndUpdate = () => {
     console.log(workoutId)
     deleteWorkout(workoutId, (didHappen) => {
       if(didHappen) {
         updateList()
-        toastSucess()
+        showToast("Workout Deleted")
       }
       else {
-        toastError()
+        showToast("Workout Cannot be Deleted!")
       }
     })
   }
@@ -41,7 +41,7 @@ const WorkoutMiniCards = ({workoutName, workoutType, navigation, workoutId, upda
    }
 
     return (
-      <Pressable onPress ={() => createWorkoutProgress("PROFILE-TQTN")}>
+      <Pressable onPress ={() => createWorkoutProgress("PROFILE-XOSS")}>
         <View style={ styles.container}>
           <View style={styles.leftMost}>
             <Text style = { styles.workoutName}>{workoutName}</Text>

@@ -16,24 +16,26 @@ const AddButton = ({icon, onPress}) => {
     )
 }
 
-const MyToast = () => {
-    return Toast.show("Hello", {
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.BOTTOM,
-        shadow: true,
-        animation: true,
-        hideOnPress: true,
-      })
-}
+
 
 const WorkoutList = ({navigation}) => {
 
     const [workoutList, setWorkoutList] = useState([])
+    const [toastVisable, setToastVisable] = useState(false)
+    const [toastMessage, setToastMessage] = useState("")
+    
+    const showToast = (message) => {
+        setToastMessage(message)
+        setToastVisable(true)
+        setTimeout(() => {
+            setToastVisable(false)
+        }, 1000);
+    }
 
     const isFocused = useIsFocused()
 
     const generateWorkoutList = () => {
-        getWorkoutList("PROFILE-TQTN", (result) => {
+        getWorkoutList("PROFILE-XOSS", (result) => {
             if(result === undefined) {
                 console.log("Error in database")
             }
@@ -64,19 +66,11 @@ const WorkoutList = ({navigation}) => {
             <View style = {styles.container}>
                 {
                     workoutList.map((element, index) => {
-                        return <WorkoutMiniCards key={index} navigation={navigation} workoutName={element["Name"]} workoutType={element["Type"]} updateList={generateWorkoutList} workoutId={element["id"]}></WorkoutMiniCards>
+                        return <WorkoutMiniCards key={index} navigation={navigation} workoutName={element["Name"]} workoutType={element["Type"]} updateList={generateWorkoutList} workoutId={element["id"]} showToast={showToast}></WorkoutMiniCards>
                     })
                 }
-                {
-                    Toast.show("Hello", {
-                        duration: Toast.durations.SHORT,
-                        position: Toast.positions.BOTTOM,
-                        shadow: true,
-                        animation: true,
-                        hideOnPress: true,
-                      })
-                }
             </View>
+            <Toast visible={toastVisable} position={-100} shadow={false} animation={false} hideOnPress={true}>{toastMessage}</Toast>
             <View style = {styles.buttonContainer}>
                 <AddButton icon = {<EntypoIcon name="plus" size='24' color='white'/>} onPress ={() => navigation.push('Add Workout')}></AddButton>
             </View>

@@ -26,7 +26,7 @@ const AddWorkoutPage = ({navigation}) => {
     }
 
     const addWorkoutandNav = () => {
-        addWorkout({profileID: "PROFILE-TQTN", workoutName: workoutName, workoutType: workoutType}, (didHappen) => {
+        addWorkout({profileID: "PROFILE-XOSS", workoutName: workoutName, workoutType: workoutType}, (didHappen) => {
           if(didHappen) {
             navigation.navigate('Workout List')
           } else {
