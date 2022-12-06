@@ -9,10 +9,8 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DropDownPicker from 'react-native-dropdown-picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import global from '../util/data/global';
 import { addProfile } from '../util/database/ProfileMethods';
 
@@ -148,6 +146,7 @@ const BiometricsSetup = ({ navigation }) => {
 
     const [heightUnitsArray, setHeightUnitsArray] = useState([
         {label: 'Centimeters', value: 'cm'},
+        {label: 'Feet', value: 'ft'},
         {label: 'Inches', value: 'in'},
     ]);
     
@@ -158,6 +157,19 @@ const BiometricsSetup = ({ navigation }) => {
         global.profile["height"] = height
         global.profile["weightUnits"] = weightUnits
         global.profile["heightUnits"] = heightUnits
+        addProfile({
+            gender: global.gender,
+            firstName: global.firstName,
+            lastName: global.lastName,
+            theme: 0,
+            birthday: global.birthday,
+            height: global.height,
+            initialWeight: global.weight,
+            activityLevel: 0,
+            weightUnits: global.weightUnits,
+            heightUnits: global.heightUnits
+        }, (result) => console.log(result));
+        DropDownPicker.setTheme("LIGHT");
         navigation.navigate('Home')
     }
 
