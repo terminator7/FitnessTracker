@@ -1,10 +1,8 @@
 import react, { useState } from "react";
 import { StyleSheet, Text, View, TextInput, Button, ButtonStyle, ScrollView, TouchableOpacity, Pressable, Keyboard, TouchableWithoutFeedback} from 'react-native';
-import WorkoutCard from "../components/WorkoutCard";
-import WorkoutDay from "../components/WorkoutDay";
-import WorkoutMiniCards from "../components/WorkoutMiniCards";
-import EntypoIcon from 'react-native-vector-icons/Entypo'
-import AddWorkout from "../components/AddWorkout";
+import { getMealsList, addMeal, deleteMeal} from '../util/database/MealsMethod';
+import {getDate, getDateAndTime} from '../util/dateMethods/dateMethods';
+import global from "../util/data/global";
 
 const DismissKeyboard = ({ children}) => (
   <TouchableWithoutFeedback onPress ={() => Keyboard.dismiss()}>
@@ -13,12 +11,21 @@ const DismissKeyboard = ({ children}) => (
 );
 
 const AddMealPage = ({navigation}) => {
-    const [isWorkoutNameFocused, setWorkoutNameFocused] = useState(false)
-    const [isWorkoutTypeFocused, setWorkoutTypeFocused] = useState(false)
+    const [isNameFocused, setNameFocused] = useState(false)
+    const [mealName, setmealName] = useState('');
 
-    const setInputFocus = (name, type) => {
-      setWorkoutNameFocused(name)
-      setWorkoutTypeFocused(type)
+    const setInputFocus = (name) => {
+      setNameFocused(name)
+    }
+
+    buttonClickListener = () =>{
+      addMeal({profileID: global.profile.profileID, mealName: mealName}, (didHappen) => {
+        if(didHappen) {
+          navigation.navigate('MealList')
+        } else {
+          console.log("Did not add Workout")
+        }
+      })
     }
     return(
       <DismissKeyboard>
@@ -26,10 +33,10 @@ const AddMealPage = ({navigation}) => {
           <View style ={ styles.cardContent}>
             <View style = {styles.inputField}>
               <Text style = { styles.workoutName}>Meal Name: </Text>         
-              <TextInput style = {[styles.input, {borderBottomColor: isWorkoutNameFocused?'orange':'black'}]} onFocus= {() => setInputFocus(1,0)}></TextInput>
+              <TextInput style = {[styles.input, {borderBottomColor: isNameFocused?'orange':'black'}]} onFocus= {() => setInputFocus(1,0)} onChangeText={(text) => setmealName(text)}></TextInput>
             </View>
             <View style = {styles.subContainer}>
-              <Pressable style = {styles.addButton} onPress ={() => navigation.navigate('MealList')}><Text style = {{color: 'white', fontSize: 15, fontWeight: "bold"}}>Finish</Text></Pressable>
+              <Pressable style = {styles.addButton} onPress ={this.buttonClickListener}><Text style = {{color: 'white', fontSize: 15, fontWeight: "bold"}}>Finish</Text></Pressable>
             </View>
         </View>
       </View>
