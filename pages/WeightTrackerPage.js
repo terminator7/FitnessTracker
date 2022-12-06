@@ -1,14 +1,15 @@
 //General imports
-import React from "react";
+import {React, useState, useEffect} from "react";
 import { Text, View, Button, StyleSheet, SafeAreaView, TextInput, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native';
 
 //Component Imports
 // *Insert Page imports here*
 import DropDownPicker from 'react-native-dropdown-picker';
 import { showMessage, hideMessage } from 'react-native-flash-message';
-import { addWeight } from './util/database/WeightTrackerMethods';
-import global from './util/data/global';
-
+import { addWeight } from '../util/database/WeightTrackerMethods';
+import global from '../util/data/global';
+import {getDateAndTime} from '../util/dateMethods/dateMethods'
+import Toast from "react-native-root-toast";
 
 const DismissKeyboard = ({ children}) => (
     <TouchableWithoutFeedback onPress ={() => Keyboard.dismiss()}>
@@ -63,28 +64,44 @@ const styles = StyleSheet.create({
 
 const WeightTrackerScreen = (props) => {
     
+    const [toastVisable, setToastVisable] = useState(false)
+    const [toastMessage, setToastMessage] = useState("")
+
+    const showToast = (message) => {
+        setToastMessage(message)
+        setToastVisable(true)
+        setTimeout(() => {
+            setToastVisable(false)
+        }, 1000);
+    }
+
     const validate = () => {
         // Currently this does actually work but the text for the errors is not showing up for the user.
         Keyboard.dismiss();
         let valid = true;
         if (!inputs.weight) {
-            showMessage({message:'ERROR: Please input a weight...', backgroundColor: 'red'})
+            showToast('ERROR: Please input a weight')
             valid = false;
         }
         else if (!inputs.weight.match(/^\d+\.?\d*$/)) {
-            showMessage({message:'ERROR: Please input a weight (numbers)...', backgroundColor: 'red'})
+            showToast('ERROR: Please input a weight (numbers)')
             valid = false;
         }
         else if (!inputs.units) {
-            showMessage({message:'ERROR: Please pick a unit to work with...', backgroundColor: 'red'})
+            showToast('ERROR: Please pick a unit to work with')
             valid = false;
         }
         else if (valid) {
-            // send to database if valid is true
-            addWeight({profileID: global.profile["profileID"], weight: inputs.weight, date:"Date('now')", units: inputs.units}, (result) => console.log("Weight Added: " + result))
+            addWeight({profileID: global.profile["profileID"], weight: inputs.weight, date:getDateAndTime(), units: inputs.units}, (result) => {
+                if(result) {
+                    showToast("Weight Added")
+                } else {
+                    showToast("Weight Not Added, Try Again Later")
+                }
+            })
         }
     };
-    const [inputs, setInputs] = React.useState({
+    const [inputs, setInputs] = useState({
         weight: '',
         units: '',
     });
@@ -94,13 +111,13 @@ const WeightTrackerScreen = (props) => {
     };
 
     
-    const [open, setOpen] = React.useState(false);
-    const [value, setValue] = React.useState(null);
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(null);
     
-    const [items, setItems] = React.useState([
+    const [items, setItems] = useState([
       {label: 'Select a unit', value: ''},
-      {label: 'Kilograms', value: 'kilograms'},
-      {label: 'Pounds', value: 'pounds'},
+      {label: 'Kilograms', value: 'Kg'},
+      {label: 'Pounds', value: 'lbs'},
     ]);
     return (
         // Need to change styling of padding left for text
@@ -142,6 +159,7 @@ const WeightTrackerScreen = (props) => {
                             <Text style={{fontWeight: 'bold', fontSize: 18, color: "white"}}>Submit</Text>
                         </TouchableOpacity>
                     </View>
+                    <Toast visible={toastVisable} position={-100} shadow={false} animation={false} hideOnPress={true}>{toastMessage}</Toast>
                 </View>
             </SafeAreaView>
         </DismissKeyboard>
