@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import react, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Button, TextInput, Dimensions, TouchableOpacity } from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import {deleteWorkout, addWorkout, getWorkoutList, getWorkoutProgress, addWorkoutToProgress, deleteWorkoutProgress, updateWorkoutProgress} from '../util/database/WorkoutMethods'
@@ -48,6 +48,9 @@ const WorkoutCard = ({workoutName, workoutType, prevSets, prevReps, prevCalories
     })
   }
 
+  useEffect(() => {
+    console.log(workoutName + " " + workoutId)
+  },[])
   const updateWorkoutProgressCard = () => {
     updateWorkoutProgress({profileID: profileID, workoutID: workoutId, date: date, sets: Sets, reps: Reps, caloriesBurned: CaloriesBurned}, (didHappen) => {
       if (didHappen) {

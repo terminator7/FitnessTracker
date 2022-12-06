@@ -1,8 +1,8 @@
-import react, { useState } from "react";
+import react, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import WorkoutCard from "./WorkoutCard";
 import EntypoIcon from 'react-native-vector-icons/Entypo'
-
+import { useIsFocused } from "@react-navigation/native";
 const AddButton = ({icon, onPress}) => {
     return(
         <TouchableOpacity style = {styles.addButton} onPress = {onPress}>
@@ -11,7 +11,15 @@ const AddButton = ({icon, onPress}) => {
     )
 }
 
-const WorkoutDay = ({date = "Today", navigation, workouts, updateList}) => {
+const WorkoutDay = ({date = "Today", navigation, workouts = [], updateList}) => {
+
+    const isFocused = useIsFocused()
+    useEffect(() => {
+        if(isFocused) {
+            console.log(workouts)
+        }
+    },[isFocused])
+
     return(
         <View style = {styles.container}>
             <View style = {styles.dateHeader}>
@@ -20,7 +28,7 @@ const WorkoutDay = ({date = "Today", navigation, workouts, updateList}) => {
                 </Text>
             </View>
             {
-                workouts.map((element, index) => {
+                workouts.length > 0 && workouts.map((element, index) => {
                     return <WorkoutCard key={index} workoutName={element["Name"]} workoutType={element["Type"]} profileID={element["ProfileID"]} date={element["Date"]} workoutId={element["WorkoutID"]} updateList={updateList} currentSets={element["Sets"]} currentReps={element["Reps"]} currentCaloriesBurned={element["CaloriesBurned"]}></WorkoutCard>
                 })
             }

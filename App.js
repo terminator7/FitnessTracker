@@ -27,7 +27,10 @@ const App = () => {
     initalizeDatabase()
     getProfile((result) => {
       console.log(result)
-      if(result.length === 0) {
+      if(result === undefined) {
+        console.log("No Database Yet")
+      }
+      else if(result.length === 0) {
         setHasUserProfile(false)
       } else {
         setHasUserProfile(true)

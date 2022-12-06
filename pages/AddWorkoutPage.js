@@ -6,6 +6,7 @@ import WorkoutMiniCards from "../components/WorkoutMiniCards";
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import AddWorkout from "../components/AddWorkout";
 import {deleteWorkout, addWorkout, getWorkoutList, getWorkoutProgress, addWorkoutToProgress} from '../util/database/WorkoutMethods'
+import global from "../util/data/global";
 
 const DismissKeyboard = ({ children}) => (
   <TouchableWithoutFeedback onPress ={() => Keyboard.dismiss()}>
@@ -26,7 +27,7 @@ const AddWorkoutPage = ({navigation}) => {
     }
 
     const addWorkoutandNav = () => {
-        addWorkout({profileID: "PROFILE-XOSS", workoutName: workoutName, workoutType: workoutType}, (didHappen) => {
+        addWorkout({profileID: global.profile.profileID, workoutName: workoutName, workoutType: workoutType}, (didHappen) => {
           if(didHappen) {
             navigation.navigate('Workout List')
           } else {

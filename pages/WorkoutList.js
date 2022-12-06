@@ -7,6 +7,7 @@ import WorkoutMiniCards from "../components/WorkoutMiniCards";
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import {deleteWorkout, addWorkout, getWorkoutList, getWorkoutProgress, addWorkoutToProgress} from '../util/database/WorkoutMethods'
 import Toast from 'react-native-root-toast';
+import global from "../util/data/global";
 
 const AddButton = ({icon, onPress}) => {
     return(
@@ -35,7 +36,7 @@ const WorkoutList = ({navigation}) => {
     const isFocused = useIsFocused()
 
     const generateWorkoutList = () => {
-        getWorkoutList("PROFILE-XOSS", (result) => {
+        getWorkoutList(global.profile.profileID, (result) => {
             if(result === undefined) {
                 console.log("Error in database")
             }
@@ -43,16 +44,11 @@ const WorkoutList = ({navigation}) => {
                 console.log("No workouts hoe")
             }
             else {
-                console.log("Testing Something")
                 setWorkoutList(result)
-                console.log("Workouts: " + workoutList)
             }
         })
     }
     
-    useLayoutEffect(() => {
-        generateWorkoutList()
-    }, [])
 
     useEffect(() => {
         if(isFocused) {

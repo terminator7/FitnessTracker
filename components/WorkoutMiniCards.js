@@ -2,8 +2,8 @@ import react, { useState } from "react";
 import { StyleSheet, Text, View, Button, TextInput, Dimensions, TouchableWithoutFeedback, Pressable, TouchableOpacity } from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import {deleteWorkout, addWorkout, getWorkoutList, getWorkoutProgress, addWorkoutToProgress} from '../util/database/WorkoutMethods'
-import { getDate } from "../util/dateMethods/dateMethods";
-
+import { getDate, getDateAndTime } from "../util/dateMethods/dateMethods";
+import global from "../util/data/global";
 
 const DeleteButton = ({icon, onPress}) => {
   return(
@@ -29,9 +29,9 @@ const WorkoutMiniCards = ({workoutName, workoutType, navigation, workoutId, upda
   }
 
 
-   const createWorkoutProgress = (pID) => {
-        addWorkoutToProgress({profileID: pID, workoutID: workoutId, date: getDate(), sets: 0, reps: 0, caloriesBurned: 0}, (result) => {
-          console.log(pID + " " + workoutId)
+   const createWorkoutProgress = (pID, wID) => {
+        addWorkoutToProgress({profileID: pID, workoutID: wID, date: getDateAndTime(), sets: 0, reps: 0, caloriesBurned: 0}, (result) => {
+          console.log("Adding Progress to: " + pID + " " + workoutId)
           if(result === false) {
             console.log("Error in adding")
           } else {
@@ -41,7 +41,7 @@ const WorkoutMiniCards = ({workoutName, workoutType, navigation, workoutId, upda
    }
 
     return (
-      <Pressable onPress ={() => createWorkoutProgress("PROFILE-XOSS")}>
+      <Pressable onPress ={() => createWorkoutProgress(global.profile.profileID, workoutId)}>
         <View style={ styles.container}>
           <View style={styles.leftMost}>
             <Text style = { styles.workoutName}>{workoutName}</Text>

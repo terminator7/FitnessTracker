@@ -9,6 +9,7 @@ import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import { SectionList } from "react-native-web";
 import {deleteWorkout, addWorkout, getWorkoutList, getWorkoutProgress, addWorkoutToProgress} from '../util/database/WorkoutMethods'
 import global from '../util/data/global'
+import { getDate } from "../util/dateMethods/dateMethods";
 
 // *Insert Page imports here*
 
@@ -25,7 +26,7 @@ const WorkoutScreen = ({navigation}) => {
 
     const generateWorkoutProgess = () => {
         let DateMap = new Map()
-        getWorkoutProgress("PROFILE-XOSS", (result) => {
+        getWorkoutProgress(global.profile.profileID, (result) => {
             if(result === undefined) {
                 console.log("There was an error reaching the database")
             }
@@ -34,9 +35,10 @@ const WorkoutScreen = ({navigation}) => {
                     if (DateMap.has((result[i]["Date"]).substring(0,10))) {
                         DateMap.set((result[i]["Date"]).substring(0,10), [...DateMap.get((result[i]["Date"]).substring(0,10)), result[i]])
                     } else {
-                        DateMap.set((result[i]["Date"]).substring(0,10), [result[i]["Date"]])
+                        DateMap.set((result[i]["Date"]).substring(0,10), [result[i]])
                     }
                 }
+                console.log(DateMap)
                 setWorkoutProgress(DateMap)
             }
         })
@@ -52,6 +54,7 @@ const WorkoutScreen = ({navigation}) => {
         <ScrollView style = {{backgroundColor: "rgba(46, 180, 153, 0.7)"}}>
             <DismissKeyboard>
                 <View>
+                    {[...workoutProgress.keys()].length === 0  && <WorkoutDay navigation={navigation} date={getDate()} updateList={generateWorkoutProgess}></WorkoutDay>}
                     {
                         [...workoutProgress.keys()].map((date, index) => {
                             return <WorkoutDay key={index} navigation={navigation} date={date} workouts={workoutProgress.get(date)} updateList={generateWorkoutProgess}></WorkoutDay>
