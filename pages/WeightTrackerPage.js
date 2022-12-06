@@ -6,6 +6,8 @@ import { Text, View, Button, StyleSheet, SafeAreaView, TextInput, TouchableWitho
 // *Insert Page imports here*
 import DropDownPicker from 'react-native-dropdown-picker';
 import { showMessage, hideMessage } from 'react-native-flash-message';
+import { addWeight } from './util/database/WeightTrackerMethods';
+import global from './util/data/global';
 
 
 const DismissKeyboard = ({ children}) => (
@@ -79,7 +81,7 @@ const WeightTrackerScreen = (props) => {
         }
         else if (valid) {
             // send to database if valid is true
-
+            addWeight({profileID: global.profile["profileID"], weight: inputs.weight, date:"Date('now')", units: inputs.units}, (result) => console.log("Weight Added: " + result))
         }
     };
     const [inputs, setInputs] = React.useState({
@@ -97,8 +99,8 @@ const WeightTrackerScreen = (props) => {
     
     const [items, setItems] = React.useState([
       {label: 'Select a unit', value: ''},
-      {label: 'Kilograms', value: 'kg'},
-      {label: 'Pounds', value: 'lbs'},
+      {label: 'Kilograms', value: 'kilograms'},
+      {label: 'Pounds', value: 'pounds'},
     ]);
     return (
         // Need to change styling of padding left for text
