@@ -7,18 +7,25 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    View
+    View,
+    TouchableWithoutFeedback, 
+    Keyboard
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DropDownPicker from 'react-native-dropdown-picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import global from '../util/data/global';
+import global, { profile } from '../util/data/global';
 import { addProfile } from '../util/database/ProfileMethods';
 
 const Stack = createNativeStackNavigator();
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+
+const DismissKeyboard = ({ children}) => (
+    <TouchableWithoutFeedback onPress ={() => Keyboard.dismiss()}>
+        {children}
+    </TouchableWithoutFeedback>
+);
 
 const ProfileSetupScreen = ({ navigation }) => {
     return (
@@ -135,10 +142,12 @@ const BiometricsSetup = ({ navigation }) => {
 
     const onWeightButtonOpen = useCallback(() => {
         setHeightButtonOpen(false);
+        Keyboard.dismiss()
     }, []);
 
     const onHeightButtonOpen = useCallback(() => {
         setWeightButtonOpen(false);
+        Keyboard.dismiss()
     }, []);
 
     const [weightUnitsArray, setWeightUnitsArray] = useState([
@@ -152,104 +161,127 @@ const BiometricsSetup = ({ navigation }) => {
     ]);
     
     const initializeAndNext = () => {
-        const currentYear = new Date().getFullYear();
-        global.profile["birthday"] = new Date(currentYear - age, 0, 1)
+        global.profile["age"] = age
         global.profile["weight"] = weight
         global.profile["height"] = height
         global.profile["weightUnits"] = weightUnits
         global.profile["heightUnits"] = heightUnits
-        navigation.navigate('Home')
+        addProfile(
+            {
+                gender: global.profile.gender, 
+                firstName: global.profile.firstName, 
+                lastName : global.profile.lastName,
+                theme: 1,
+                age: global.profile.age,
+                height: global.profile.height,
+                initialWeight: global.profile.weight,
+                activityLevel: 1,
+                weightUnits: global.profile.weightUnits,
+                heightUnits: global.profile.heightUnits
+            }, async(result) => {
+                if(typeof(result) === "object") {
+                    if(result[0]) {
+                        console.log(result)
+                        global.profile["profileID"] = result[1]
+                        navigation.navigate('Home')
+                    }
+                } else {
+                    console.log("Error in making profile")
+                }
+            })
     }
 
     DropDownPicker.setTheme("DARK");
 
     return (
-        <View style={ nameSetupStyles.pageContainer }>
-            <View style={ nameSetupStyles.headerContainer }>
-                <Text style={ nameSetupStyles.headerText }>Getting Started</Text>
-                <Text style={ nameSetupStyles.bodyText }>To get you started on your fitness journey, we will need to know some information about you and what you want to accomplish.</Text>
+        <DismissKeyboard>
+            <View style={ nameSetupStyles.pageContainer }>
+                <View style={ nameSetupStyles.headerContainer }>
+                    <Text style={ nameSetupStyles.headerText }>Getting Started</Text>
+                    <Text style={ nameSetupStyles.bodyText }>To get you started on your fitness journey, we will need to know some information about you and what you want to accomplish.</Text>
+                </View>
+                <View style={ biometricsSetupStyles.inputContainer }>
+                    <View style={ biometricsSetupStyles.birthdayContainer }>
+                        <Text style={ nameSetupStyles.nameText }>How old are you?</Text>
+                    </View>
+                    <View style={ biometricsSetupStyles.birthdayInputContainer }>
+                        <TextInput
+                            placeholder='Age (Years)'
+                            style={ biometricsSetupStyles.birthdayInput }
+                            onChangeText={(text) => setAge(text)}
+                            keyboardType='numeric'
+                            returnKeyType='done'
+                        />
+                    </View>
+                    <View style={ biometricsSetupStyles.heightContainer }>
+                        <Text style={ nameSetupStyles.nameText }>What is your height?</Text>
+                    </View>
+                    <View style={ biometricsSetupStyles.heightInputContainer }>
+                        <TextInput
+                            placeholder='Height'
+                            style={ biometricsSetupStyles.heightInput }
+                            onChangeText={(text) => setHeight(text)}
+                            keyboardType='numeric'
+                            returnKeyType='done'
+                        />
+                        <DropDownPicker
+                            open={heightButtonOpen}
+                            onOpen={onHeightButtonOpen}
+                            value={heightUnits}
+                            items={heightUnitsArray}
+                            setOpen={setHeightButtonOpen}
+                            setValue={setHeightUnits}
+                            setItems={setHeightUnitsArray}
+                            style={biometricsSetupStyles.heightUnitPicker}
+                            onChangeValue={value => setHeightUnits(value)}
+                        />
+                    </View>
+                    <View style={ biometricsSetupStyles.weightContainer }>
+                        <Text style={ nameSetupStyles.nameText }>What is your weight?</Text>
+                    </View>
+                    <View style={ biometricsSetupStyles.weightInputContainer }>
+                        <TextInput
+                            placeholder='Weight'
+                            style={ biometricsSetupStyles.weightInput }
+                            onChangeText={(text) => setWeight(text)}
+                            keyboardType='numeric'
+                            returnKeyType='done'
+                        />
+                        <DropDownPicker
+                            open={weightButtonOpen}
+                            onOpen={onWeightButtonOpen}
+                            value={weightUnits}
+                            items={weightUnitsArray}
+                            setOpen={setWeightButtonOpen}
+                            setValue={setWeightUnits}
+                            setItems={setWeightUnitsArray}
+                            style={biometricsSetupStyles.weightUnitPicker}
+                            onChangeValue={value => setWeightUnits(value)}
+                        />
+                    </View>
+                </View>
+                <View style={ biometricsSetupStyles.buttonContainer }>
+                    <TouchableOpacity
+                        onPress={ () => navigation.navigate('Name Setup') }
+                        style={ biometricsSetupStyles.backButton }
+                    >
+                        <Text style={ nameSetupStyles.nextButtonText }>←</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={ () => {
+                            if (!age || !height || !weight || !heightUnits || !weightUnits) {
+                                missingInfoAlert();
+                            } else {
+                                initializeAndNext();
+                            }
+                        }}
+                        style={ biometricsSetupStyles.nextButton }
+                    >
+                        <Text style={ nameSetupStyles.nextButtonText }>Finish</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-            <View style={ biometricsSetupStyles.inputContainer }>
-                <View style={ biometricsSetupStyles.birthdayContainer }>
-                    <Text style={ nameSetupStyles.nameText }>How old are you?</Text>
-                </View>
-                <View style={ biometricsSetupStyles.birthdayInputContainer }>
-                    <TextInput
-                        placeholder='Age (Years)'
-                        style={ biometricsSetupStyles.birthdayInput }
-                        onChangeText={(text) => setAge(text)}
-                        keyboardType='numeric'
-                        returnKeyType='done'
-                    />
-                </View>
-                <View style={ biometricsSetupStyles.heightContainer }>
-                    <Text style={ nameSetupStyles.nameText }>What is your height?</Text>
-                </View>
-                <View style={ biometricsSetupStyles.heightInputContainer }>
-                    <TextInput
-                        placeholder='Height'
-                        style={ biometricsSetupStyles.heightInput }
-                        onChangeText={(text) => setHeight(text)}
-                        keyboardType='numeric'
-                        returnKeyType='done'
-                    />
-                    <DropDownPicker
-                        open={heightButtonOpen}
-                        onOpen={onHeightButtonOpen}
-                        value={heightUnits}
-                        items={heightUnitsArray}
-                        setOpen={setHeightButtonOpen}
-                        setValue={setHeightUnits}
-                        setItems={setHeightUnitsArray}
-                        style={biometricsSetupStyles.heightUnitPicker}
-                        onChangeValue={value => setHeightUnits(value)}
-                    />
-                </View>
-                <View style={ biometricsSetupStyles.weightContainer }>
-                    <Text style={ nameSetupStyles.nameText }>What is your weight?</Text>
-                </View>
-                <View style={ biometricsSetupStyles.weightInputContainer }>
-                    <TextInput
-                        placeholder='Weight'
-                        style={ biometricsSetupStyles.weightInput }
-                        onChangeText={(text) => setWeight(text)}
-                        keyboardType='numeric'
-                        returnKeyType='done'
-                    />
-                    <DropDownPicker
-                        open={weightButtonOpen}
-                        onOpen={onWeightButtonOpen}
-                        value={weightUnits}
-                        items={weightUnitsArray}
-                        setOpen={setWeightButtonOpen}
-                        setValue={setWeightUnits}
-                        setItems={setWeightUnitsArray}
-                        style={biometricsSetupStyles.weightUnitPicker}
-                        onChangeValue={value => setWeightUnits(value)}
-                    />
-                </View>
-            </View>
-            <View style={ biometricsSetupStyles.buttonContainer }>
-                <TouchableOpacity
-                    onPress={ () => navigation.navigate('Name Setup') }
-                    style={ biometricsSetupStyles.backButton }
-                >
-                    <Text style={ nameSetupStyles.nextButtonText }>←</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={ () => {
-                        if (!age || !height || !weight || !heightUnits || !weightUnits) {
-                            missingInfoAlert();
-                        } else {
-                            initializeAndNext();
-                        }
-                    }}
-                    style={ biometricsSetupStyles.nextButton }
-                >
-                    <Text style={ nameSetupStyles.nextButtonText }>Finish</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
+        </DismissKeyboard>
     );
 };
 
@@ -389,7 +421,7 @@ const nameSetupStyles = StyleSheet.create({
         alignItems: 'center',
         height: '20%',
         justifyContent: 'start',
-        paddingTop: '5%',
+        paddingTop: '5%'
     },
     nextButton: {
         alignItems: 'center',
@@ -499,12 +531,12 @@ const biometricsSetupStyles = StyleSheet.create({
         width: '40%',
     },
     buttonContainer: {
-        alignItems: 'start',
+        alignItems: "center",
         flexDirection: 'row',
         height: '20%',
         justifyContent: 'center',
         paddingRight: '10%',
-        paddingTop: '5%',
+        paddingTop: '5%'
     },
     nextButton: {
         alignItems: 'center',

@@ -43,4 +43,16 @@ const addMealToProgress = ({profileID, mealID, date, carbs, fats, protein, calor
     })
 }
 
-export {deleteMeal, addMeal, getMealsList, getMealProgress, addMealToProgress}
+const updateMealProgress = ({profileID, mealID, date, carbs, fats, protien, caloriesAte}, callback) => {
+    db.transaction(tx => {
+        tx.executeSql("UPDATE ProfileMeals SET Protein = ?, Fat = ?, Carbs = ?, CaloriesAte = ? WHERE ProfileID = ? AND MealID = ? AND Date = ?",[protien, fats, carbs, caloriesAte, profileID, mealID, date], () => callback(true), () => callback(false))
+    })
+}
+
+const deleteMealProgress = ({profileID, mealID, date}, callback) => {
+    db.transaction(tx => {
+        tx.executeSql("DELETE FROM ProfileMeals WHERE ProfileID = ? AND MealID = ? AND Date = ?",[profileID, mealID, date], () => callback(true), () => callback(false))
+    })
+}
+
+export {deleteMeal, addMeal, getMealsList, getMealProgress, addMealToProgress, updateMealProgress, deleteMealProgress}

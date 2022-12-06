@@ -21,6 +21,12 @@ const getProfileDetails = (profileID, callback) => {
     })
 }
 
+const getProfile = (callback) => {
+    db.transaction(tx => {
+        tx.executeSql('SELECT * FROM Profiles' ,null, (txObj, resultSet) => callback(resultSet.rows._array), (txtObj, error) => callback(undefined))
+    })
+}
+
 //Description: Add profile to the database
 /* Pre: 
     Gender: 'M' or 'F'
@@ -42,11 +48,11 @@ const getProfileDetails = (profileID, callback) => {
         global.profile["profileID"] = object[1]
     }
 }) */
-const addProfile = ({gender, firstName, lastName, theme = 0, birthday, height, initialWeight, activityLevel, weightUnits, heightUnits}, callback) => {
+const addProfile = ({gender, firstName, lastName, theme = 0, age, height, initialWeight, activityLevel, weightUnits, heightUnits}, callback) => {
     //let transactionCompleted = false
     profileId = generateID("PROFILE")
     db.transaction(tx => {
-       tx.executeSql('INSERT INTO Profiles VALUES (?,?,?,?,?,?,?,?,?,?,?)', [profileId, gender, firstName, lastName, birthday, height, initialWeight, activityLevel, theme, weightUnits, heightUnits], () => callback([true, profileId]), () => callback(false))
+       tx.executeSql('INSERT INTO Profiles VALUES (?,?,?,?,?,?,?,?,?,?,?)', [profileId, gender, firstName, lastName, age, height, initialWeight, activityLevel, theme, weightUnits, heightUnits], () => callback([true, profileId]), (result, error) => {callback(false); console.log(error)})
     })
 }
 //Description: Will Remove profile from database
@@ -66,4 +72,4 @@ const changeProfileTheme = ({profileID, newTheme}, callback) => {
         tx.executeSql('UPDATE Profiles Theme=? Where id=?', [newTheme, profileID],() => callback(true), () => callback(false))
     })
 }
-export {getProfileDetails, changeProfileTheme, deleteProfile, addProfile,  getProfileList}
+export {getProfileDetails, changeProfileTheme, deleteProfile, addProfile,  getProfileList, getProfile}

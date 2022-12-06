@@ -11,6 +11,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
+import global from '../util/data/global';
 
 const OnboardingSlidesInfo = [
     {
@@ -41,6 +42,14 @@ const OnboardingSlidesInfo = [
 
 const OnboardingScreen = ({ navigation }) => {
     const scrollX = new Animated.Value(0);
+
+    const checkAndNav = () => {
+        if(global.profile.profileID) {
+            navigation.navigate('Home')
+        } else {
+            console.log("No Profile")
+        }
+    }
 
     function renderDots() {
         const dotPosition = Animated.divide(scrollX, Dimensions.get('window').width);
@@ -115,6 +124,12 @@ const OnboardingScreen = ({ navigation }) => {
                 >
                     <Text style={ pageStyles.secondButtonText }>Terms & Conditions</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={ () => checkAndNav() }
+                    style={ pageStyles.haveAccountButton}
+                >
+                    <Text style={ pageStyles.getStartedButtonText }>Already Have Profile  →</Text>
+                </TouchableOpacity>
             </View>
         </ImageBackground>
     );
@@ -135,6 +150,15 @@ const OnboardingSlide = ({ item }) => {
 }
 
 const pageStyles = StyleSheet.create({
+    haveAccountButton: {
+        alignItems: 'center',
+        backgroundColor: '#F98659',
+        borderRadius: '50',
+        height: '25%',
+        justifyContent: 'center',
+        width: '70%',
+        marginTop: '3%', 
+    },
     getStartedButton: {
         alignItems: 'center',
         backgroundColor: '#F98659',

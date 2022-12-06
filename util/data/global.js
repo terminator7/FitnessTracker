@@ -12,7 +12,7 @@ module.exports = {
     profile: {
         firstName: null,
         lastName: null,
-        birthday: null,
+        age: null,
         gender: null,
         weight: null,
         height: null,

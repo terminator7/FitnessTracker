@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FlashMessage from 'react-native-flash-message'
 import {getDate, getDateAndTime} from './util/dateMethods/dateMethods'
 
 import { initalizeDatabase, refreshDataBase } from './util/database/DatabaseMethods';
-import { addProfile, getProfileList } from './util/database/ProfileMethods';
+import { addProfile, getProfileList, getProfile } from './util/database/ProfileMethods';
 import { addMeal, addMealToProgress, getMealsList } from './util/database/MealsMethod'
 import { addWater } from './util/database/WaterTrackerMethods'
 
@@ -14,16 +14,36 @@ import ProfileSetupScreen from './pages/ProfileSetupPage';
 import HomeScreen from './pages/HomePage';
 import { addWorkout, getWorkoutList, addWorkoutToProgress } from './util/database/WorkoutMethods';
 import { addWeight } from './util/database/WeightTrackerMethods';
-
+import global from './util/data/global';
 import { RootSiblingParent } from 'react-native-root-siblings';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
 
+  const [hasUserProfile, setHasUserProfile] = useState(false)
   useEffect(() => {
+    //refreshDataBase()
+    initalizeDatabase()
+    getProfile((result) => {
+      console.log(result)
+      if(result.length === 0) {
+        setHasUserProfile(false)
+      } else {
+        setHasUserProfile(true)
+        global.profile["firstName"] = result[0]["FirstName"]
+        global.profile["lastName"] = result[0]["LastName"]
+        global.profile["age"] = result[0]["Age"]
+        global.profile["gender"] = result[0]["Gender"]
+        global.profile["weight"] = result[0]["InitalWeight"]
+        global.profile["height"] = result[0]["Height"]
+        global.profile["weightUnits"] = result[0]["WeightUnits"]
+        global.profile["heightUnits"] = result[0]["HeightUnits"]
+        global.profile["profileID"] = result[0]["id"]
+      }
+    })
     //This Code is for Devlopment Purposes Only and will be removed on final product
-    let deleteDataBase = false
+    /* let deleteDataBase = false
     let generateData = false
     if (deleteDataBase) {
       refreshDataBase()
@@ -67,7 +87,7 @@ const App = () => {
         })
         addWeight({profileID:testProfileID, weight:203, date:"Date('now')", units:"pounds"}, (result) => console.log("Weight Added: " + result))   
       }) 
-    }
+    } */
   }, [])
 
   return (
