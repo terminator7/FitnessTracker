@@ -7,6 +7,7 @@ import { Text, View, Button, StyleSheet, SafeAreaView, TextInput, TouchableWitho
 import DropDownPicker from 'react-native-dropdown-picker';
 import { showMessage, hideMessage } from 'react-native-flash-message';
 import { addWeight } from './util/database/WeightTrackerMethods';
+import global from './util/data/global';
 
 
 const DismissKeyboard = ({ children}) => (
@@ -80,7 +81,7 @@ const WeightTrackerScreen = (props) => {
         }
         else if (valid) {
             // send to database if valid is true
-            addWeight({profileID:testProfileID, weight: inputs.weight, date:"Date('now')", units: inputs.units}, (result) => console.log("Weight Added: " + result))
+            addWeight({profileID: global.profile["profileID"], weight: inputs.weight, date:"Date('now')", units: inputs.units}, (result) => console.log("Weight Added: " + result))
         }
     };
     const [inputs, setInputs] = React.useState({
