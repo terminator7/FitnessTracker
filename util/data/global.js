@@ -14,9 +14,10 @@ module.exports = {
         lastName: null,
         birthday: null,
         gender: null,
-        initalWeight: null,
+        weight: null,
         height: null,
-        units: null,
+        weightUnits: null,
+        heightUnits: null,
         profileID: null,
     }
 }
