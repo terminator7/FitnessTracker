@@ -6,10 +6,10 @@ import DietProgressCircle from '../components/DietProgressCircle';
 import DietSummaryCard from '../components/DietSummaryCard';
 import { LineChart } from 'react-native-chart-kit';
 //DB Imports
-//import {getWaterList} from "../util/database/WaterTrackerMethods.js"
-//import {getWeightList} from "../util/database/WeightTrackerMethods.js"
-//import {getMealProgress} from "../util/database/MealsMethod.js"
-//import {getWorkoutProgress} from "../util/database/WorkoutMethods"
+import {getWaterList} from "../util/database/WaterTrackerMethods.js"
+import {getWeightList} from "../util/database/WeightTrackerMethods.js"
+import {getMealProgress} from "../util/database/MealsMethod.js"
+import {getWorkoutProgress} from "../util/database/WorkoutMethods"
 
 
 
@@ -209,50 +209,47 @@ const styles = StyleSheet.create({
 
 
 const Protein = () => {
-    //let total = getMealProgress(ProfileIDFake);
-    let total = "dummie text"
+    let total = getMealProgress(ProfileIDFake);
     //Parse info
+    //Don't know how unless I can test it.
 
     return (
       <Text>Your total is: {total}!</Text>
     );
   }
 const Calories = () => {
-    //let Total = getMealProgress(ProfileIDFake);
-    let total = "dummie text"
+    let total = getMealProgress(ProfileIDFake);
     return (
       <Text>Your total is: {total}!</Text>
     );
   }
 const Carbs = () => {
-    //let total = getTotalFromOtherPage("Carbs");
-    let total = "dummie text"
+    let total = getTotalFromOtherPage("Carbs");
     return (
       <Text>Your total is: {total}!</Text>
     );
   }
 const Fats = () => {
-    //let total = getTotalFromOtherPage("Fats");
-    let total = "dummie text"
+    let total = getTotalFromOtherPage("Fats");
     return (
       <Text>Your total is: {total}!</Text>
     );
   }
 const Water = () => {
-    //let total = getWaterList(ProfileIDFake);
-    let total = "dummie text"
+    let total = getWaterList(ProfileIDFake);
     return (
       <Text>Your total is: {total}!</Text>
     );
     //Also insert progress, could use a progress bar.
   }
  const Weight = () => {
-    //let total = getWeightList(ProfileIDFake)
-    let total = "dummie text"
+    let total = getWeightList(ProfileIDFake)
+    //Get previous days weight to find diff
+    //Calculate weight diff by accessing a previous days code
     return (
         <Text>Your total is: {total}!</Text>
       );
-    //Combine information to calculate a weight
+
   }
 
 
