@@ -1,7 +1,8 @@
-import react, { useState } from "react";
+import react, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import MealCard from "./MealCard";
+import { useIsFocused } from "@react-navigation/native";
 
 const AddButton = ({icon, onPress}) => {
     return(
@@ -11,7 +12,13 @@ const AddButton = ({icon, onPress}) => {
     )
 }
 
-const DietDay = ({date = "Today", navigation}) => {
+const DietDay = ({date = "Today", navigation, meals = [], updateList}) => {
+    const isFocused = useIsFocused()
+    useEffect(() => {
+        if(isFocused) {
+            console.log(meals)
+        }
+    },[isFocused])
     return(
         <View style = {styles.container}>
             <View style = {styles.dateHeader}>
@@ -19,8 +26,11 @@ const DietDay = ({date = "Today", navigation}) => {
                     {date}
                 </Text>
             </View>
-            <MealCard MealName= "Pizza Rolls"></MealCard>
-            <MealCard MealName= "CheeseBurger"></MealCard>
+            {
+                meals.length > 0 && meals.map((element, index) => {
+                    return <MealCard key={index} MealName={element["Name"]} Fat={element["Fat"]} profileID={element["ProfileID"]} date={element["Date"]} mealID={element["mealID"]} updateList={updateList} Protein={element["protien"]} Carbs={element["Carbs"]} TotalCalories={element["TotalCalories"]}></MealCard>
+                })
+            }
             <AddButton icon = {<EntypoIcon name="plus" size='24' color='white'/>} onPress ={() => navigation.push('MealList')}></AddButton>
         </View>
     )

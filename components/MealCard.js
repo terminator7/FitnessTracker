@@ -1,7 +1,7 @@
 import react, { useState } from "react";
 import { StyleSheet, Text, View, Button, TextInput, Dimensions, TouchableOpacity } from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo'
-
+import { getMealsList, addMeal, deleteMeal, getMealProgress, addMealToProgress, deleteMealProgress, updateMealProgress} from '../util/database/MealsMethod';
 
 const UpdateButton = ({text, onPress}) => {
   return(
@@ -20,7 +20,7 @@ const DeleteButton = ({icon, onPress}) => {
 }
 
 
-const MealCard = ({MealName, MealDate, Fat, Protein, Carbs, TotalCalories}) => {
+const MealCard = ({MealName, Fat, Protein, Carbs, TotalCalories, profileID, mealID, date}) => {
 
   const [isFatFocused, setFatFocus] = useState(false)
   const [isProteinFocused, setProteinFocus] = useState(false)
@@ -33,13 +33,37 @@ const MealCard = ({MealName, MealDate, Fat, Protein, Carbs, TotalCalories}) => {
     setCaloriesFocus(calories)
     setCarbsFocus(carbs)
   }
+  const deleteAndUpdate = () => {
+    deleteMealProgress({profileID: profileID, mealID: workoutId, date: date}, (didHappen) => {
+      if(didHappen) {
+        updateList()
+        console.log(workoutId)
+      }
+      else {
+        console.log("Did not delete")
+      }
+    })
+  }
+
+  useEffect(() => {
+    console.log(workoutName + " " + workoutId)
+  },[])
+  const updateMealProgressCard = () => {
+    updateMealProgress({profileID: profileID, mealID: mealID, date: date, carbs: Carbs, fats: Fat, protien: Protein, caloriesAte: TotalCalories}, (didHappen) => {
+      if (didHappen) {
+        console.log("Updated Workout")
+      } else {
+        console.log("Did not update Workout Progress")
+      }
+    })
+  }
 
     return (
         <View style={ styles.container}>
           <View style = {styles.cardHeader}>
             <Text style = { styles.workoutName}>{MealName}</Text>
             <View style= {styles.rightCardHeader}>
-              <DeleteButton icon={<EntypoIcon name="trash" size='24' color='white'/>}></DeleteButton>
+              <DeleteButton icon={<EntypoIcon name="trash" size='24' color='white'/>} onPress = {() => deleteAndUpdate()}></DeleteButton>
             </View>
           </View>
         <View style ={ styles.cardContent}>
@@ -60,7 +84,7 @@ const MealCard = ({MealName, MealDate, Fat, Protein, Carbs, TotalCalories}) => {
             <TextInput style = {[styles.input, {borderBottomColor: isCaloriesFocused?'orange':'black'}]} placeholder = {TotalCalories} keyboardType = "numeric" onFocus={() => setInputFocus(0, 0, 1, 0)}></TextInput>         
           </View>
           <View style={{paddingTop: 25, paddingHorizontal: 60, paddingBottom: 10}}>
-            <UpdateButton text="Update"></UpdateButton>
+            <UpdateButton text="Update" onPress = {() => updateMealProgressCard()}></UpdateButton>
           </View>
         </View>
       </View>
